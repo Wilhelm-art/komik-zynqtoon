@@ -74,12 +74,26 @@ async function logError(message: string, error?: any) {
 
 async function fetchMangaData(url: string, categoryName: string): Promise<Comic[]> {
     console.log(`\nFetching ${categoryName} from MangaDex...`);
+    let response;
+    let fetchSuccess = false;
+    for (let attempt = 1; attempt <= 3; attempt++) {
+        try {
+            response = await axios.get(url, {
+                headers: { 'User-Agent': 'ZynqToonBot/1.0 (Integration)' },
+                httpsAgent: new https.Agent({ rejectUnauthorized: false, keepAlive: true })
+            });
+            fetchSuccess = true;
+            break;
+        } catch (error: any) {
+            await logError(`Attempt ${attempt} - Failed to fetch ${categoryName}`, error);
+            if (error.response?.status !== 403 && !error.message.includes('403')) break;
+            await sleep(2000);
+        }
+    }
+    
+    if (!fetchSuccess || !response) return [];
+
     try {
-        const response = await axios.get(url, {
-            headers: { 'User-Agent': 'ZynqToonBot/1.0 (Integration)' },
-            httpsAgent: new https.Agent({ rejectUnauthorized: false })
-        });
-        
         const mangaList = response.data.data || [];
         const results: Comic[] = [];
 
@@ -148,10 +162,24 @@ async function downloadAndOptimizeImage(url: string, webpFileName: string) {
 
     try {
         console.log(`Downloading cover: ${url}`);
-        const response = await axios.get(url, { 
-            responseType: 'arraybuffer',
-            httpsAgent: new https.Agent({ rejectUnauthorized: false })
-        });
+        let response;
+        let success = false;
+        for (let attempt = 1; attempt <= 3; attempt++) {
+            try {
+                response = await axios.get(url, { 
+                    responseType: 'arraybuffer',
+                    httpsAgent: new https.Agent({ rejectUnauthorized: false, keepAlive: true })
+                });
+                success = true;
+                break;
+            } catch (error: any) {
+                await logError(`Download Attempt ${attempt} failed: ${url}`, error);
+                if (error.response?.status !== 403 && !error.message.includes('403')) break;
+                await sleep(2000);
+            }
+        }
+        
+        if (!success || !response) return;
         
         console.log(`Optimizing image to ${webpFileName}...`);
         await sharp(response.data)
