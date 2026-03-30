@@ -241,7 +241,8 @@ async function runDeployCycle() {
             try {
                 await execAsync('git push origin main');
             } catch (pushErr: any) {
-                if (pushErr.message.includes('rejected') || pushErr.message.includes('non-fast-forward')) {
+                const pMsg = (pushErr.message || '') + (pushErr.stdout || '') + (pushErr.stderr || '');
+                if (pMsg.includes('rejected') || pMsg.includes('non-fast-forward') || pMsg.includes('fetch first')) {
                     console.log('Push rejected. Attempting auto-resolution (pull --rebase)...');
                     try {
                         await execAsync('git pull origin main --rebase');
@@ -258,7 +259,8 @@ async function runDeployCycle() {
             await fs.appendFile(path.join(__dirname, '..', 'deployment_log.txt'), `[${timestamp}] Sync successful. Processed ${updatedCount} comics.\n`, 'utf8');
             console.log(`Deployed to GitHub successfully!`);
         } catch (commitErr: any) {
-            if (commitErr.message.includes('nothing to commit')) {
+            const errMsg = (commitErr.message || '') + (commitErr.stdout || '') + (commitErr.stderr || '');
+            if (errMsg.includes('nothing to commit') || errMsg.includes('clean')) {
                 console.log('No new changes to commit.');
             } else {
                 throw commitErr;
