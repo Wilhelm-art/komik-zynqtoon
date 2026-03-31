@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZynqToon | Infinite Stories. Zero Boredom.</title>
     <meta name="description" content="Discover thousands of manga, comics, and webtoons. Read trending titles, explore genres, and dive into new releases — all free.">
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=DM+Sans:wght@400;500;700&family=Permanent+Marker&display=swap" rel="stylesheet">
@@ -439,7 +440,15 @@
     <!-- NAVBAR -->
     <nav id="navbar">
         <div class="container nav-content">
-            <a href="#home" class="logo" id="logo-link">ZynqToon</a>
+            <a href="#home" class="logo" id="logo-link" style="display:inline-flex;align-items:center;gap:8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="36" height="36" style="flex-shrink:0;">
+                    <defs><linearGradient id="logo-g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF3CAC"/><stop offset="100%" stop-color="#8A2BE2"/></linearGradient></defs>
+                    <rect width="32" height="32" rx="7" fill="#0D0D0D" stroke="url(#logo-g)" stroke-width="1.5"/>
+                    <path d="M8 9h16l-10 14h12" stroke="url(#logo-g)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    <circle cx="24" cy="8" r="2.5" fill="#00F5D4" opacity="0.9"/>
+                </svg>
+                ZynqToon
+            </a>
             <div class="search-wrapper">
                 <input type="text" id="search-input" class="search-input" placeholder="Search manga..." autocomplete="off">
                 <button class="search-btn" id="search-btn" aria-label="Search">🔍</button>
