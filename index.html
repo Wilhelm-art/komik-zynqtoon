@@ -411,14 +411,14 @@
         <div class="container">
             <h2 class="section-title">Browse by Genre</h2>
             <div class="genre-grid">
-                <div class="genre-tile"><span class="genre-icon">💥</span><h3 class="genre-name">Action</h3><p class="genre-count">450+ Comics</p></div>
-                <div class="genre-tile"><span class="genre-icon">💖</span><h3 class="genre-name">Romance</h3><p class="genre-count">320+ Comics</p></div>
-                <div class="genre-tile"><span class="genre-icon">👻</span><h3 class="genre-name">Horror</h3><p class="genre-count">180+ Comics</p></div>
-                <div class="genre-tile"><span class="genre-icon">😂</span><h3 class="genre-name">Comedy</h3><p class="genre-count">210+ Comics</p></div>
-                <div class="genre-tile"><span class="genre-icon">🧙‍♂️</span><h3 class="genre-name">Fantasy</h3><p class="genre-count">540+ Comics</p></div>
-                <div class="genre-tile"><span class="genre-icon">🚀</span><h3 class="genre-name">Sci-Fi</h3><p class="genre-count">290+ Comics</p></div>
-                <div class="genre-tile"><span class="genre-icon">🍕</span><h3 class="genre-name">Slice of Life</h3><p class="genre-count">150+ Comics</p></div>
-                <div class="genre-tile"><span class="genre-icon">🔍</span><h3 class="genre-name">Mystery</h3><p class="genre-count">120+ Comics</p></div>
+                <div class="genre-tile" onclick="browseGenre(1, 'Action')"><span class="genre-icon">💥</span><h3 class="genre-name">Action</h3><p class="genre-count">450+ Comics</p></div>
+                <div class="genre-tile" onclick="browseGenre(22, 'Romance')"><span class="genre-icon">💖</span><h3 class="genre-name">Romance</h3><p class="genre-count">320+ Comics</p></div>
+                <div class="genre-tile" onclick="browseGenre(14, 'Horror')"><span class="genre-icon">👻</span><h3 class="genre-name">Horror</h3><p class="genre-count">180+ Comics</p></div>
+                <div class="genre-tile" onclick="browseGenre(4, 'Comedy')"><span class="genre-icon">😂</span><h3 class="genre-name">Comedy</h3><p class="genre-count">210+ Comics</p></div>
+                <div class="genre-tile" onclick="browseGenre(10, 'Fantasy')"><span class="genre-icon">🧙‍♂️</span><h3 class="genre-name">Fantasy</h3><p class="genre-count">540+ Comics</p></div>
+                <div class="genre-tile" onclick="browseGenre(24, 'Sci-Fi')"><span class="genre-icon">🚀</span><h3 class="genre-name">Sci-Fi</h3><p class="genre-count">290+ Comics</p></div>
+                <div class="genre-tile" onclick="browseGenre(36, 'Slice of Life')"><span class="genre-icon">🍕</span><h3 class="genre-name">Slice of Life</h3><p class="genre-count">150+ Comics</p></div>
+                <div class="genre-tile" onclick="browseGenre(7, 'Mystery')"><span class="genre-icon">🔍</span><h3 class="genre-name">Mystery</h3><p class="genre-count">120+ Comics</p></div>
             </div>
         </div>
     </section>
@@ -662,8 +662,9 @@ async function openReader(title, image, genre, rating) {
     readerContent.innerHTML = '<div class="reader-loading"><div class="spinner"></div><p>Loading manga details...</p></div>';
 
     try {
-        // Step 1: Search MangaDex for this manga
-        const searchRes = await fetch(`https://api.mangadex.org/manga?title=${encodeURIComponent(title)}&limit=1&includes[]=cover_art`);
+        // Step 1: Search MangaDex via Vercel proxy (bypasses ISP block + CORS)
+        const mdxSearch = encodeURIComponent(`https://api.mangadex.org/manga?title=${encodeURIComponent(title)}&limit=1&includes[]=cover_art`);
+        const searchRes = await fetch(`/api/proxy?url=${mdxSearch}`);
         const searchJson = await searchRes.json();
         const manga = searchJson?.data?.[0];
 
@@ -673,9 +674,10 @@ async function openReader(title, image, genre, rating) {
         const mangaAttr = manga.attributes;
         const synopsis = mangaAttr.description?.en || 'No synopsis available.';
 
-        // Step 2: Fetch chapters
+        // Step 2: Fetch chapters via proxy
         await new Promise(r => setTimeout(r, 500)); // Rate limit
-        const chapRes = await fetch(`https://api.mangadex.org/manga/${mangaId}/feed?translatedLanguage[]=en&order[chapter]=asc&limit=50&includes[]=scanlation_group`);
+        const chapUrl = encodeURIComponent(`https://api.mangadex.org/manga/${mangaId}/feed?translatedLanguage[]=en&order[chapter]=asc&limit=50&includes[]=scanlation_group`);
+        const chapRes = await fetch(`/api/proxy?url=${chapUrl}`);
         const chapJson = await chapRes.json();
         const chapters = chapJson?.data || [];
 
@@ -756,7 +758,8 @@ async function loadChapterPages(chapterId, title, chapterNum) {
     readerContent.scrollTo({ top: 0 });
 
     try {
-        const res = await fetch(`https://api.mangadex.org/at-home/server/${chapterId}`);
+        const atHomeUrl = encodeURIComponent(`https://api.mangadex.org/at-home/server/${chapterId}`);
+        const res = await fetch(`/api/proxy?url=${atHomeUrl}`);
         const json = await res.json();
         const baseUrl = json?.baseUrl;
         const chapterHash = json?.chapter?.hash;
@@ -794,7 +797,43 @@ async function loadChapterPages(chapterId, title, chapterNum) {
     }
 }
 
-// ── 6. Stats Counter ──
+// ── 6. Dynamic Genre Browsing ──
+const GENRE_EXCLUDE = '9,12,35,49,26,28';
+
+async function browseGenre(genreId, genreName) {
+    searchResultsSection.classList.add('active');
+    exploreSection.style.display = 'none';
+    searchResultsTitle.textContent = `🏷️ ${genreName} Manga`;
+    searchResultsGrid.innerHTML = '<div class="search-loading"><div class="spinner"></div><p>Loading ' + genreName + ' manga...</p></div>';
+    searchResultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    try {
+        const res = await fetch(`https://api.jikan.moe/v4/manga?genres=${genreId}&order_by=score&sort=desc&sfw=true&limit=16&genres_exclude=${GENRE_EXCLUDE}`);
+        const json = await res.json();
+        const results = json?.data || [];
+
+        if (results.length === 0) {
+            searchResultsGrid.innerHTML = '<div class="search-empty"><h3>No results found</h3><p>No manga found for this genre</p></div>';
+            return;
+        }
+
+        searchResultsGrid.innerHTML = results.map(item => {
+            const title = item.title || 'Unknown';
+            const image = item.images?.webp?.large_image_url || item.images?.jpg?.large_image_url || '';
+            const genres = (item.genres || []).map(g => g.name).join(', ') || 'Manga';
+            const score = item.score ? item.score.toFixed(1) : '—';
+            return createComicCard({
+                id: item.mal_id, title, genre: genres, rating: score, image,
+                lastChapter: item.chapters ? String(item.chapters) : '?'
+            });
+        }).join('');
+    } catch (err) {
+        console.error('Genre browse failed', err);
+        searchResultsGrid.innerHTML = '<div class="search-empty"><h3>Failed to load</h3><p>Please try again later</p></div>';
+    }
+}
+
+// ── 7. Stats Counter ──
 const stats = document.querySelectorAll('.stat-number');
 const statsObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
