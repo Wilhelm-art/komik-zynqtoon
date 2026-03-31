@@ -22,8 +22,10 @@ const PUSH_INTERVAL = 6 * 60 * 60 * 1000; // 6 hours
 const MAX_RETRIES = 3;
 
 // ─── Jikan API v4 Endpoints ─────────────────────────────────────────────────
-const JIKAN_TRENDING = 'https://api.jikan.moe/v4/top/manga?filter=bypopularity&limit=8';
-const JIKAN_NEW_RELEASES = 'https://api.jikan.moe/v4/manga?order_by=start_date&sort=desc&status=publishing&limit=10';
+// Genre exclusions: 9=Ecchi, 12=Hentai, 35=Harem, 49=Erotica, 26=Girls Love, 28=Boys Love
+const GENRE_EXCLUDE = '9,12,35,49,26,28';
+const JIKAN_TRENDING = `https://api.jikan.moe/v4/top/manga?filter=bypopularity&limit=8&genres_exclude=${GENRE_EXCLUDE}`;
+const JIKAN_NEW_RELEASES = `https://api.jikan.moe/v4/manga?order_by=start_date&sort=desc&status=publishing&limit=10&genres_exclude=${GENRE_EXCLUDE}`;
 
 // ─── Interfaces ──────────────────────────────────────────────────────────────
 interface Comic {

@@ -983,7 +983,7 @@
                             <span class="rating">★ ${comic.rating}</span>
                             <span style="font-size: 0.8rem; color: var(--text-muted);">Ch ${comic.lastChapter || comic.chapter || '?'}</span>
                         </div>
-                        <a href="#" class="read-btn" style="display:block; margin-top:10px;">Read Now</a>
+                        <a href="https://mangadex.org/titles?q=${encodeURIComponent(comic.title)}" target="_blank" rel="noopener noreferrer" class="read-btn" style="display:block; margin-top:10px;">Read Now →</a>
                     </div>
                 </div>
             `;
