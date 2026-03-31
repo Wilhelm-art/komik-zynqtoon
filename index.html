@@ -11,17 +11,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=DM+Sans:wght@400;500;700&family=Permanent+Marker&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #121212;
-            --surface: #1C1C30;
-            --surface-hover: #282848;
-            --primary: #E8609C;
-            --secondary: #5CE0C0;
-            --tertiary: #E8D44D;
-            --text-main: #E0E0E8;
-            --text-muted: #9090A4;
+            --bg: #09090b;
+            --surface: #18181b;
+            --surface-hover: #27272a;
+            --primary: #312e81;
+            --secondary: #3f3f46;
+            --tertiary: #b45309;
+            --text-main: #fffbeb;
+            --text-muted: #d4d4d8;
             --font-display: 'Bangers', cursive;
             --font-body: 'DM Sans', sans-serif;
-            --glass: rgba(18, 18, 18, 0.88);
+            --glass: rgba(9, 9, 11, 0.88);
             --radius: 16px;
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -47,10 +47,10 @@
             text-transform: uppercase; cursor: pointer; transition: var(--transition); border: none;
             font-family: var(--font-body); font-size: 0.9rem; text-align: center;
         }
-        .btn-primary { background: var(--primary); color: white; box-shadow: 0 0 10px rgba(232,96,156,0.3); }
-        .btn-primary:hover { transform: scale(1.05); box-shadow: 0 0 18px rgba(232,96,156,0.45); }
-        .btn-outline { background: transparent; border: 2px solid var(--secondary); color: var(--secondary); }
-        .btn-outline:hover { background: var(--secondary); color: var(--bg); }
+        .btn-primary { background: #1e1b4b; color: #c3dafe; border: 1px solid #312e81; box-shadow: none; }
+        .btn-primary:hover { transform: scale(1.02); background: #312e81; color: #ebf4ff; }
+        .btn-outline { background: transparent; border: 2px solid var(--secondary); color: var(--text-muted); }
+        .btn-outline:hover { background: var(--secondary); color: var(--text-main); }
 
         /* ── NAVBAR ── */
         nav { position: fixed; top: 0; width: 100%; z-index: 1000; padding: 10px 0; transition: var(--transition); }
@@ -125,19 +125,16 @@
             display: grid; grid-template-columns: repeat(2, 250px); grid-template-rows: repeat(2, 300px);
             gap: 15px; opacity: 0.4; z-index: 1;
         }
-        .panel { border: 4px solid #000; position: relative; overflow: hidden; }
-        .panel:nth-child(1) { background: linear-gradient(45deg, #C0508A, #6A28A8); }
-        .panel:nth-child(2) { background: linear-gradient(45deg, #4CC0A4, #1A7890); }
-        .panel:nth-child(3) { background: linear-gradient(45deg, #D4B840, #C07828); }
-        .panel:nth-child(4) { background: linear-gradient(45deg, #B048A0, #303080); }
-        .panel::after { content: ''; position: absolute; inset: 0; background-image: radial-gradient(black 1px, transparent 1px); background-size: 10px 10px; opacity: 0.2; }
+        .panel { border: 4px solid var(--surface); position: relative; overflow: hidden; }
+        .panel:nth-child(n) { background: linear-gradient(45deg, #18181b, #27272a); }
+        .panel::after { content: ''; position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 10px 10px; opacity: 0.5; }
 
         .now-reading {
             position: absolute; bottom: 10%; right: 10%; background: var(--surface); padding: 15px 25px;
             border-radius: 12px; border: 2px solid var(--secondary); display: flex; align-items: center;
             gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: float 4s ease-in-out infinite; z-index: 20;
         }
-        .badge-cover { width: 40px; height: 55px; background: var(--primary); border-radius: 4px; }
+        .badge-cover { width: 40px; height: 55px; background: #312e81; border-radius: 4px; }
         .badge-info h4 { font-size: 0.9rem; margin-bottom: 2px; }
         .badge-info p { font-size: 0.7rem; color: var(--secondary); text-transform: uppercase; font-weight: bold; }
 
@@ -223,11 +220,11 @@
         .rating { color: var(--tertiary); font-weight: 700; }
 
         .read-btn {
-            display: block; width: 100%; padding: 8px; text-align: center; background: linear-gradient(135deg, var(--primary), #7040B0);
-            color: white; border-radius: 8px; font-weight: 700; font-size: 0.8rem; text-transform: uppercase;
+            display: block; width: 100%; padding: 8px; text-align: center; background: #1e1b4b;
+            color: #c3dafe; border: 1px solid #312e81; border-radius: 8px; font-weight: 700; font-size: 0.8rem; text-transform: uppercase;
             letter-spacing: 0.5px; transition: var(--transition);
         }
-        .read-btn:hover { transform: scale(1.03); box-shadow: 0 4px 12px rgba(232,96,156,0.3); }
+        .read-btn:hover { background: #312e81; color: #ebf4ff; }
 
         /* ── GENRE GRID ── */
         .genre-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
@@ -269,11 +266,11 @@
         /* ── TESTIMONIALS ── */
         .testimonial-grid { display: grid; grid-template-columns: 1fr; gap: 30px; }
         @media (min-width: 768px) { .testimonial-grid { grid-template-columns: repeat(3, 1fr); } }
-        .testimonial-card { background: var(--surface); padding: 30px; border-radius: 20px; border: 2px solid rgba(255,255,255,0.06); }
-        .quote-bubble { background: #F0F0F5; color: #1A1A2A; padding: 20px; border-radius: 15px; margin-bottom: 30px; position: relative; font-weight: 500; }
-        .quote-bubble::after { content: ''; position: absolute; bottom: -15px; left: 30px; border-left: 15px solid #F0F0F5; border-bottom: 15px solid transparent; }
+        .testimonial-card { background: var(--surface); padding: 30px; border-radius: 20px; border: 1px solid var(--secondary); }
+        .quote-bubble { background: #27272a; color: #fffbeb; padding: 20px; border-radius: 15px; margin-bottom: 30px; position: relative; font-weight: 500; }
+        .quote-bubble::after { content: ''; position: absolute; bottom: -15px; left: 30px; border-left: 15px solid #27272a; border-bottom: 15px solid transparent; }
         .user-info { display: flex; align-items: center; gap: 15px; }
-        .avatar { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; border: 2px solid rgba(255,255,255,0.1); }
+        .avatar { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--text-main); border: 2px solid var(--secondary); }
         .user-details h4 { font-size: 1rem; }
         .user-details p { font-size: 0.8rem; color: var(--text-muted); }
 
@@ -786,32 +783,28 @@ async function openReader(title, image, genre, rating) {
     readerContent.innerHTML = '<div class="reader-loading"><div class="spinner"></div><p>Loading manga details...</p></div>';
 
     try {
-        // Step 1: Search MangaDex via Vercel proxy (relevance-ordered)
-        const mdxSearch = encodeURIComponent(`https://api.mangadex.org/manga?title=${encodeURIComponent(title)}&limit=1&order[relevance]=desc&includes[]=cover_art`);
-        const searchRes = await fetch(`/api/proxy?url=${mdxSearch}`);
+        // Step 1: Search Consumet (Mangakakalot) via Vercel proxy
+        const consumetSearch = encodeURIComponent(`https://api.consumet.org/manga/mangakakalot/${encodeURIComponent(title)}`);
+        const searchRes = await fetch(`/api/proxy?url=${consumetSearch}`);
         const searchJson = await searchRes.json();
-        const manga = searchJson?.data?.[0];
+        const results = searchJson?.results || [];
+        
+        if (results.length === 0) throw new Error('not_found_on_consumet');
 
-        if (!manga) throw new Error('not_found');
+        const consumetId = results[0].id;
+        const synopsis = results[0].description || 'No synopsis available.';
 
-        const mangaId = manga.id;
-        const mangaAttr = manga.attributes;
-        const synopsis = mangaAttr.description?.en || mangaAttr.description?.id || 'No synopsis available.';
+        // Step 2: Fetch chapter info from Consumet via proxy
+        await new Promise(r => setTimeout(r, 500)); // Rate limit pause
+        const infoUrl = encodeURIComponent(`https://api.consumet.org/manga/mangakakalot/info?id=${encodeURIComponent(consumetId)}`);
+        const infoRes = await fetch(`/api/proxy?url=${infoUrl}`);
+        const infoJson = await infoRes.json();
+        let chapters = infoJson?.chapters || [];
 
-        // Step 2: Fetch chapters via proxy (English + Indonesian)
-        await new Promise(r => setTimeout(r, 500));
-        const chapUrl = encodeURIComponent(`https://api.mangadex.org/manga/${mangaId}/feed?translatedLanguage[]=en&translatedLanguage[]=id&order[chapter]=asc&limit=50&includes[]=scanlation_group`);
-        const chapRes = await fetch(`/api/proxy?url=${chapUrl}`);
-        const chapJson = await chapRes.json();
-        const chapters = chapJson?.data || [];
-
-        // Deduplicate chapters by chapter number
-        const chapterMap = new Map();
-        for (const ch of chapters) {
-            const num = ch.attributes.chapter || '0';
-            if (!chapterMap.has(num)) chapterMap.set(num, ch);
+        // Reverse so Chapter 1 comes first if it's descending
+        if (chapters.length > 0 && chapters[0].chapterNumber > chapters[chapters.length - 1].chapterNumber) {
+            chapters.reverse();
         }
-        const uniqueChapters = Array.from(chapterMap.values());
 
         // Build reader UI
         readerContent.innerHTML = `
@@ -825,23 +818,23 @@ async function openReader(title, image, genre, rating) {
                 </div>
             </div>
 
-            ${uniqueChapters.length > 0 ? `
-                <h3 class="chapter-list-title">📚 Chapters (${uniqueChapters.length})</h3>
+            ${chapters.length > 0 ? `
+                <h3 class="chapter-list-title">📚 Chapters (${chapters.length})</h3>
                 <div class="chapter-grid">
-                    ${uniqueChapters.map(ch => {
-                        const chNum = ch.attributes.chapter || '?';
-                        const chTitle = ch.attributes.title || '';
+                    ${chapters.map(ch => {
+                        const chNum = ch.chapterNumber || ch.id.split('-').pop() || '?';
+                        const chTitle = ch.title || `Chapter ${chNum}`;
                         return `<button class="chapter-btn" onclick="loadChapterPages('${ch.id}', '${title.replace(/'/g, "\\'")}', '${chNum}')">
                             <span class="ch-num">Ch ${chNum}</span>
-                            <span class="ch-label">${chTitle || 'Read'}</span>
+                            <span class="ch-label">${chTitle}</span>
                         </button>`;
                     }).join('')}
                 </div>
             ` : `
                 <div class="reader-fallback">
                     <h3>📚 No Chapters Available</h3>
-                    <p>Sorry, chapters for this title are currently unavailable in our database. This may be due to licensing restrictions or the title not being uploaded yet.</p>
-                    <button onclick="closeReader()" class="btn btn-outline">← Back to Browse</button>
+                    <p>Sorry, chapters for this title are currently unavailable in our database.</p>
+                    <button onclick="closeReader()" class="btn btn-outline" style="margin-top:16px;">← Back to Browse</button>
                 </div>
             `}
         `;
@@ -860,8 +853,7 @@ async function openReader(title, image, genre, rating) {
             </div>
             <div class="reader-fallback">
                 <h3>📚 Currently Unavailable</h3>
-                <p>Sorry, chapters for this title are currently unavailable in our database. This may be due to licensing restrictions, network issues, or the title not being uploaded yet.</p>
-                <p style="margin-top:12px;font-size:0.85rem;color:var(--text-muted);">Try again later or browse other titles.</p>
+                <p>Sorry, chapters for this title are currently unavailable. This may be due to licensing restrictions, network issues, or it being completely missing from the upstream provider.</p>
                 <button onclick="closeReader()" class="btn btn-outline" style="margin-top:16px;">← Back to Browse</button>
             </div>
         `;
@@ -874,22 +866,28 @@ async function loadChapterPages(chapterId, title, chapterNum) {
     readerContent.scrollTo({ top: 0 });
 
     try {
-        const atHomeUrl = encodeURIComponent(`https://api.mangadex.org/at-home/server/${chapterId}`);
-        const res = await fetch(`/api/proxy?url=${atHomeUrl}`);
+        const readUrl = encodeURIComponent(`https://api.consumet.org/manga/mangakakalot/read?chapterId=${encodeURIComponent(chapterId)}`);
+        const res = await fetch(`/api/proxy?url=${readUrl}`);
         const json = await res.json();
-        const baseUrl = json?.baseUrl;
-        const chapterHash = json?.chapter?.hash;
-        const pages = json?.chapter?.data || [];
-
-        if (!baseUrl || !pages.length) throw new Error('no_pages');
+        
+        let pages = [];
+        if (Array.isArray(json)) pages = json;
+        else if (json?.data) pages = json.data;
+        else if (json?.pages) pages = json.pages;
+        
+        if (!pages.length) throw new Error('no_pages');
 
         readerContent.innerHTML = `
             <div style="text-align:center;margin-bottom:20px;">
                 <button onclick="openReader('${title.replace(/'/g, "\\'")}', '', '', '')" class="btn btn-outline" style="font-size:0.8rem;">← Back to Chapters</button>
                 <span style="margin:0 12px;color:var(--text-muted);">Chapter ${chapterNum} • ${pages.length} pages</span>
             </div>
-            <div class="reader-pages">
-                ${pages.map((page, i) => `<img src="${baseUrl}/data/${chapterHash}/${page}" alt="Page ${i+1}" loading="lazy">`).join('')}
+            <div class="reader-pages" style="display:flex; flex-direction:column; align-items:center; gap:0;">
+                ${pages.map((page, i) => {
+                    const imgUrl = typeof page === 'string' ? page : (page.img || page.url);
+                    // Standard mangakakalot fix (referer issue occasionally) proxying image domains
+                    return `<img src="/api/proxy?url=${encodeURIComponent(imgUrl)}" alt="Page ${i+1}" loading="lazy" style="max-width:100%; display:block;">`;
+                }).join('')}
             </div>
             <div style="text-align:center;margin-top:30px;">
                 <button onclick="openReader('${title.replace(/'/g, "\\'")}', '', '', '')" class="btn btn-primary">← Back to Chapters</button>
@@ -901,7 +899,7 @@ async function loadChapterPages(chapterId, title, chapterNum) {
         readerContent.innerHTML = `
             <div class="reader-fallback">
                 <h3>Could not load pages</h3>
-                <p>Sorry, the pages for this chapter couldn't be loaded. This may be due to network restrictions or the chapter being temporarily unavailable.</p>
+                <p>Sorry, the pages for this chapter couldn't be loaded. It might be due to a blocked image server or rate limiting from the upstream provider.</p>
                 <div style="margin-top:16px;">
                     <button onclick="openReader('${title.replace(/'/g, "\\'")}', '', '', '')" class="btn btn-outline">← Back to Chapters</button>
                 </div>

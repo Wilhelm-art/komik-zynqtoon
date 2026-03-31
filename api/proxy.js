@@ -14,8 +14,8 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Missing "url" query parameter' });
   }
 
-  // Whitelist: only allow MangaDex API calls
-  const allowed = ['api.mangadex.org', 'uploads.mangadex.org'];
+  // Whitelist: only allow MangaDex and Consumet API calls
+  const allowed = ['api.mangadex.org', 'uploads.mangadex.org', 'api.consumet.org'];
   let parsed;
   try {
     parsed = new URL(url);
@@ -24,7 +24,7 @@ export default async function handler(req, res) {
   }
 
   if (!allowed.some(host => parsed.hostname === host)) {
-    return res.status(403).json({ error: 'Domain not allowed. Only MangaDex API is permitted.' });
+    return res.status(403).json({ error: 'Domain not allowed. Only whitelisted APIs are permitted.' });
   }
 
   try {
