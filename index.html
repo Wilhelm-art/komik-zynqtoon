@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZynqToon | Infinite Stories. Zero Boredom.</title>
+    <meta name="description" content="Discover thousands of manga, comics, and webtoons. Read trending titles, explore genres, and dive into new releases — all free.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=DM+Sans:wght@400;500;700&family=Permanent+Marker&display=swap" rel="stylesheet">
@@ -11,23 +12,20 @@
         :root {
             --bg: #0D0D0D;
             --surface: #1A1A2E;
+            --surface-hover: #252545;
             --primary: #FF3CAC;
             --secondary: #00F5D4;
             --tertiary: #FFE600;
             --text-main: #FFFFFF;
             --text-muted: #A0A0B0;
-            --border-width: 3px;
             --font-display: 'Bangers', cursive;
             --font-body: 'DM Sans', sans-serif;
-            --glass: rgba(13, 13, 13, 0.8);
+            --glass: rgba(13, 13, 13, 0.85);
+            --radius: 16px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
 
         body {
             background-color: var(--bg);
@@ -37,595 +35,287 @@
             overflow-x: hidden;
         }
 
-        h1, h2, h3, .logo {
-            font-family: var(--font-display);
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
+        h1, h2, h3, .logo { font-family: var(--font-display); letter-spacing: 0.05em; text-transform: uppercase; }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-            transition: 0.3s;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
         .btn {
-            display: inline-block;
-            padding: 12px 32px;
-            border-radius: 50px;
-            font-weight: 700;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: 0.3s;
-            border: none;
-            font-family: var(--font-body);
-            font-size: 0.9rem;
-            text-align: center;
+            display: inline-block; padding: 12px 32px; border-radius: 50px; font-weight: 700;
+            text-transform: uppercase; cursor: pointer; transition: var(--transition); border: none;
+            font-family: var(--font-body); font-size: 0.9rem; text-align: center;
         }
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 0 15px rgba(255,60,172,0.4); }
+        .btn-primary:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(255,60,172,0.6); }
+        .btn-outline { background: transparent; border: 2px solid var(--secondary); color: var(--secondary); }
+        .btn-outline:hover { background: var(--secondary); color: var(--bg); }
 
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 0 15px rgba(255, 60, 172, 0.4);
+        /* ── NAVBAR ── */
+        nav { position: fixed; top: 0; width: 100%; z-index: 1000; padding: 16px 0; transition: var(--transition); }
+        nav.scrolled { background: var(--glass); backdrop-filter: blur(12px); padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+        .logo { font-size: 2rem; color: var(--primary); text-shadow: 3px 3px 0px var(--tertiary); flex-shrink: 0; }
+        .nav-links { display: none; gap: 28px; }
+        @media (min-width: 768px) { .nav-links { display: flex; } }
+        .nav-links a:hover { color: var(--secondary); }
+
+        /* ── SEARCH BAR ── */
+        .search-wrapper {
+            position: relative; flex: 1; max-width: 360px;
         }
-
-        .btn-primary:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(255, 60, 172, 0.6);
+        .search-input {
+            width: 100%; padding: 10px 42px 10px 16px; border-radius: 50px;
+            border: 2px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05);
+            color: var(--text-main); font-family: var(--font-body); font-size: 0.9rem;
+            outline: none; transition: var(--transition);
         }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--secondary);
-            color: var(--secondary);
+        .search-input::placeholder { color: var(--text-muted); }
+        .search-input:focus { border-color: var(--primary); background: rgba(255,255,255,0.08); box-shadow: 0 0 20px rgba(255,60,172,0.15); }
+        .search-btn {
+            position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
+            background: var(--primary); border: none; color: white; width: 34px; height: 34px;
+            border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center;
+            transition: var(--transition);
         }
+        .search-btn:hover { background: #e0339a; transform: translateY(-50%) scale(1.1); }
 
-        .btn-outline:hover {
-            background: var(--secondary);
-            color: var(--bg);
-        }
+        /* ── HERO ── */
+        #home { height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden;
+            background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 20px 20px; }
+        .hero-content { position: relative; z-index: 10; max-width: 700px; animation: slideUp 1s ease-out; }
+        .hero-title { font-size: 4rem; line-height: 0.9; margin-bottom: 20px; text-shadow: 4px 4px 0px var(--primary); }
+        .hero-subtitle { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 40px; max-width: 500px; }
+        .hero-btns { display: flex; gap: 20px; flex-wrap: wrap; }
 
-        /* 1. NAVBAR */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: 20px 0;
-            transition: 0.4s;
-        }
-
-        nav.scrolled {
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .nav-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 2rem;
-            color: var(--primary);
-            text-shadow: 3px 3px 0px var(--tertiary);
-        }
-
-        .nav-links {
-            display: none;
-            gap: 30px;
-        }
-
-        @media (min-width: 768px) {
-            .nav-links {
-                display: flex;
-            }
-        }
-
-        .nav-links a:hover {
-            color: var(--secondary);
-        }
-
-        /* 2. HERO SECTION */
-        #home {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
-            background-size: 20px 20px; /* Halftone effect */
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 10;
-            max-width: 700px;
-            animation: slideUp 1s ease-out;
-        }
-
-        .hero-title {
-            font-size: 4rem;
-            line-height: 0.9;
-            margin-bottom: 20px;
-            color: var(--text-main);
-            text-shadow: 4px 4px 0px var(--primary);
-        }
-
-        .hero-subtitle {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            margin-bottom: 40px;
-            max-width: 500px;
-        }
-
-        .hero-btns {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        /* Comic Panel Background */
         .hero-bg-panels {
-            position: absolute;
-            right: -5%;
-            top: 50%;
-            transform: translateY(-50%) rotate(-5deg);
-            display: grid;
-            grid-template-columns: repeat(2, 250px);
-            grid-template-rows: repeat(2, 300px);
-            gap: 15px;
-            opacity: 0.4;
-            z-index: 1;
+            position: absolute; right: -5%; top: 50%; transform: translateY(-50%) rotate(-5deg);
+            display: grid; grid-template-columns: repeat(2, 250px); grid-template-rows: repeat(2, 300px);
+            gap: 15px; opacity: 0.4; z-index: 1;
         }
-
-        .panel {
-            border: 4px solid #000;
-            background: var(--surface);
-            position: relative;
-            overflow: hidden;
-        }
-
+        .panel { border: 4px solid #000; position: relative; overflow: hidden; }
         .panel:nth-child(1) { background: linear-gradient(45deg, var(--primary), #8e2de2); }
         .panel:nth-child(2) { background: linear-gradient(45deg, var(--secondary), #2193b0); }
         .panel:nth-child(3) { background: linear-gradient(45deg, var(--tertiary), #f7971e); }
         .panel:nth-child(4) { background: linear-gradient(45deg, #ff00cc, #333399); }
+        .panel::after { content: ''; position: absolute; inset: 0; background-image: radial-gradient(black 1px, transparent 1px); background-size: 10px 10px; opacity: 0.2; }
 
-        .panel::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: radial-gradient(black 1px, transparent 1px);
-            background-size: 10px 10px;
-            opacity: 0.2;
-        }
-
-        /* Floating Badge */
         .now-reading {
-            position: absolute;
-            bottom: 10%;
-            right: 10%;
-            background: var(--surface);
-            padding: 15px 25px;
-            border-radius: 12px;
-            border: 2px solid var(--secondary);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            animation: float 4s ease-in-out infinite;
-            z-index: 20;
+            position: absolute; bottom: 10%; right: 10%; background: var(--surface); padding: 15px 25px;
+            border-radius: 12px; border: 2px solid var(--secondary); display: flex; align-items: center;
+            gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: float 4s ease-in-out infinite; z-index: 20;
         }
-
-        .badge-cover {
-            width: 40px;
-            height: 55px;
-            background: var(--primary);
-            border-radius: 4px;
-        }
-
+        .badge-cover { width: 40px; height: 55px; background: var(--primary); border-radius: 4px; }
         .badge-info h4 { font-size: 0.9rem; margin-bottom: 2px; }
         .badge-info p { font-size: 0.7rem; color: var(--secondary); text-transform: uppercase; font-weight: bold; }
 
-        /* 3. FEATURED COMICS */
-        section {
-            padding: 100px 0;
-        }
+        /* ── SEARCH RESULTS ── */
+        #search-results { display: none; padding: 120px 0 60px; }
+        #search-results.active { display: block; }
+        .search-results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 16px; }
+        .search-results-header h2 { font-size: 2.5rem; }
+        .clear-search { background: none; border: 2px solid var(--text-muted); color: var(--text-muted); padding: 8px 20px;
+            border-radius: 50px; cursor: pointer; font-family: var(--font-body); font-size: 0.85rem; transition: var(--transition); }
+        .clear-search:hover { border-color: var(--primary); color: var(--primary); }
+        .search-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 24px; }
+        .search-loading { text-align: center; padding: 60px 0; color: var(--text-muted); font-size: 1.1rem; }
+        .search-empty { text-align: center; padding: 60px 0; }
+        .search-empty h3 { font-size: 2rem; margin-bottom: 10px; }
+        .search-empty p { color: var(--text-muted); }
 
-        .section-title {
-            font-size: 3rem;
-            margin-bottom: 50px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+        /* ── COMIC SECTIONS ── */
+        section { padding: 100px 0; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .section-title { font-size: 2.8rem; display: flex; align-items: center; gap: 15px; }
+        .section-title::after { content: ''; flex: 1; height: 4px; background: var(--primary); border-radius: 2px; }
 
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 4px;
-            background: var(--primary);
-            border-radius: 2px;
-        }
-
+        /* ── CAROUSEL ── */
+        .carousel-wrapper { position: relative; }
         .comic-row {
-            display: flex;
-            overflow-x: auto;
-            gap: 25px;
-            padding: 20px 0 40px;
-            scroll-snap-type: x mandatory;
-            scrollbar-width: none;
+            display: flex; overflow-x: auto; gap: 24px; padding: 20px 0 40px;
+            scroll-snap-type: x mandatory; scroll-behavior: smooth;
+            scrollbar-width: none; -ms-overflow-style: none;
         }
-
         .comic-row::-webkit-scrollbar { display: none; }
 
-        .comic-card {
-            min-width: 220px;
-            background: var(--surface);
-            border-radius: 15px;
-            overflow: hidden;
-            border: 3px solid #000;
-            transition: 0.4s;
-            scroll-snap-align: start;
-            position: relative;
+        .carousel-arrow {
+            position: absolute; top: 50%; transform: translateY(-60%); z-index: 10;
+            width: 48px; height: 48px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.15);
+            background: var(--glass); backdrop-filter: blur(8px); color: white; font-size: 1.3rem;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: var(--transition); opacity: 0;
         }
+        .carousel-wrapper:hover .carousel-arrow { opacity: 1; }
+        .carousel-arrow:hover { background: var(--primary); border-color: var(--primary); transform: translateY(-60%) scale(1.1); }
+        .carousel-arrow.left { left: -16px; }
+        .carousel-arrow.right { right: -16px; }
+        @media (max-width: 768px) { .carousel-arrow { display: none; } }
 
-        .comic-card:hover {
-            transform: translateY(-15px);
-            border-color: var(--primary);
-            box-shadow: 0 15px 35px rgba(255, 60, 172, 0.3);
+        /* ── COMIC CARD ── */
+        .comic-card {
+            min-width: 220px; max-width: 220px; background: var(--surface); border-radius: var(--radius);
+            overflow: hidden; border: 2px solid rgba(255,255,255,0.06); transition: var(--transition);
+            scroll-snap-align: start; position: relative; flex-shrink: 0;
         }
+        .comic-card:hover { transform: translateY(-12px); border-color: var(--primary); box-shadow: 0 20px 40px rgba(255,60,172,0.25); }
 
         .card-img {
-            height: 300px;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            background: #222;
+            height: 300px; width: 100%; position: relative; background: #222;
+            background-size: cover; background-position: center;
         }
+        .card-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.85)); }
 
-        .card-img h3 {
-            padding: 20px;
-            text-align: center;
-            z-index: 2;
-        }
-
-        .card-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.8));
-        }
-
-        .card-body {
-            padding: 15px;
-        }
-
+        .card-body { padding: 16px; }
         .genre-badge {
-            font-size: 0.7rem;
-            background: rgba(255,255,255,0.1);
-            padding: 4px 10px;
-            border-radius: 4px;
-            color: var(--secondary);
-            font-weight: bold;
-            margin-bottom: 10px;
-            display: inline-block;
+            font-size: 0.7rem; background: rgba(255,255,255,0.08); padding: 4px 10px;
+            border-radius: 6px; color: var(--secondary); font-weight: 700; margin-bottom: 10px; display: inline-block;
         }
-
-        .card-title {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .card-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-        }
-
-        .rating { color: var(--tertiary); }
+        .card-title { font-size: 1rem; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600; }
+        .card-meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; margin-bottom: 12px; }
+        .rating { color: var(--tertiary); font-weight: 700; }
 
         .read-btn {
-            color: var(--primary);
-            font-weight: bold;
-            font-size: 0.8rem;
-            text-transform: uppercase;
+            display: block; width: 100%; padding: 8px; text-align: center; background: linear-gradient(135deg, var(--primary), #8e2de2);
+            color: white; border-radius: 8px; font-weight: 700; font-size: 0.8rem; text-transform: uppercase;
+            letter-spacing: 0.5px; transition: var(--transition);
         }
+        .read-btn:hover { transform: scale(1.03); box-shadow: 0 4px 15px rgba(255,60,172,0.4); }
 
-        /* 4. GENRE EXPLORER */
-        .genre-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
+        /* ── GENRE GRID ── */
+        .genre-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
         .genre-tile {
-            background: var(--surface);
-            padding: 30px;
-            border-radius: 20px;
-            border: 3px solid #000;
-            text-align: center;
-            transition: 0.3s;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
+            background: var(--surface); padding: 30px; border-radius: 20px; border: 2px solid rgba(255,255,255,0.06);
+            text-align: center; transition: var(--transition); cursor: pointer; position: relative; overflow: hidden;
         }
-
-        .genre-tile:hover {
-            transform: scale(1.05);
-            background: var(--primary);
-        }
-
-        .genre-tile:hover .genre-icon,
-        .genre-tile:hover .genre-name,
-        .genre-tile:hover .genre-count {
-            color: white;
-        }
-
+        .genre-tile:hover { transform: scale(1.05); background: var(--primary); border-color: var(--primary); }
+        .genre-tile:hover .genre-icon, .genre-tile:hover .genre-name, .genre-tile:hover .genre-count { color: white; }
         .genre-icon { font-size: 3rem; margin-bottom: 15px; display: block; }
         .genre-name { font-size: 1.5rem; margin-bottom: 5px; }
         .genre-count { font-size: 0.8rem; color: var(--text-muted); font-weight: bold; }
 
-        /* 5. HOW IT WORKS */
-        .steps-container {
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-        }
-
-        @media (min-width: 992px) {
-            .steps-container { flex-direction: row; }
-        }
-
-        .step-card {
-            flex: 1;
-            background: var(--surface);
-            padding: 40px;
-            border-radius: 25px;
-            position: relative;
-            border: 3px solid #000;
-        }
-
-        .step-num {
-            position: absolute;
-            top: -20px;
-            right: 20px;
-            font-size: 6rem;
-            font-family: var(--font-display);
-            color: rgba(255,255,255,0.05);
-            line-height: 1;
-        }
-
-        .step-icon {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            color: var(--secondary);
-        }
-
+        /* ── STEPS ── */
+        .steps-container { display: flex; flex-direction: column; gap: 40px; }
+        @media (min-width: 992px) { .steps-container { flex-direction: row; } }
+        .step-card { flex: 1; background: var(--surface); padding: 40px; border-radius: 25px; position: relative; border: 2px solid rgba(255,255,255,0.06); }
+        .step-num { position: absolute; top: -20px; right: 20px; font-size: 6rem; font-family: var(--font-display); color: rgba(255,255,255,0.04); line-height: 1; }
+        .step-icon { font-size: 2.5rem; margin-bottom: 20px; color: var(--secondary); }
         .step-title { font-size: 1.8rem; margin-bottom: 15px; }
         .step-desc { color: var(--text-muted); }
 
-        /* 6. STATS BAR */
-        .stats-bar {
-            background: var(--primary);
-            padding: 60px 0;
-            margin: 50px 0;
-            transform: skewY(-2deg);
-        }
-
-        .stats-content {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
-            text-align: center;
-            transform: skewY(2deg);
-        }
-
-        @media (min-width: 768px) {
-            .stats-content { grid-template-columns: repeat(4, 1fr); }
-        }
-
+        /* ── STATS BAR ── */
+        .stats-bar { background: var(--primary); padding: 60px 0; margin: 50px 0; transform: skewY(-2deg); }
+        .stats-content { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; text-align: center; transform: skewY(2deg); }
+        @media (min-width: 768px) { .stats-content { grid-template-columns: repeat(4, 1fr); } }
         .stat-item h3 { font-size: 3.5rem; line-height: 1; margin-bottom: 5px; color: var(--tertiary); }
         .stat-item p { font-weight: bold; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; }
 
-        /* 7. TESTIMONIALS */
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 30px;
-        }
-
-        @media (min-width: 768px) {
-            .testimonial-grid { grid-template-columns: repeat(3, 1fr); }
-        }
-
-        .testimonial-card {
-            background: var(--surface);
-            padding: 30px;
-            border-radius: 20px;
-            border: 3px solid #000;
-            position: relative;
-        }
-
-        .quote-bubble {
-            background: white;
-            color: #000;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            position: relative;
-            font-weight: 500;
-        }
-
-        .quote-bubble::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 30px;
-            border-left: 15px solid white;
-            border-bottom: 15px solid transparent;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: white;
-            border: 2px solid #000;
-        }
-
+        /* ── TESTIMONIALS ── */
+        .testimonial-grid { display: grid; grid-template-columns: 1fr; gap: 30px; }
+        @media (min-width: 768px) { .testimonial-grid { grid-template-columns: repeat(3, 1fr); } }
+        .testimonial-card { background: var(--surface); padding: 30px; border-radius: 20px; border: 2px solid rgba(255,255,255,0.06); }
+        .quote-bubble { background: white; color: #000; padding: 20px; border-radius: 15px; margin-bottom: 30px; position: relative; font-weight: 500; }
+        .quote-bubble::after { content: ''; position: absolute; bottom: -15px; left: 30px; border-left: 15px solid white; border-bottom: 15px solid transparent; }
+        .user-info { display: flex; align-items: center; gap: 15px; }
+        .avatar { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; border: 2px solid rgba(255,255,255,0.1); }
         .user-details h4 { font-size: 1rem; }
         .user-details p { font-size: 0.8rem; color: var(--text-muted); }
 
-        /* 8. DOWNLOAD CTA */
-        .download-section {
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://picsum.photos/seed/comics/1920/1080');
-            background-size: cover;
-            background-attachment: fixed;
-            text-align: center;
-            padding: 120px 0;
-            border: 10px solid var(--primary);
-            border-left: none;
-            border-right: none;
-        }
-
+        /* ── DOWNLOAD CTA ── */
+        .download-section { text-align: center; padding: 120px 0; border: 10px solid var(--primary); border-left: none; border-right: none;
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)); }
         .download-title { font-size: 4rem; margin-bottom: 20px; }
         .download-subtitle { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 50px; }
-
-        .app-btns {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-bottom: 40px;
-        }
-
-        .app-btn {
-            background: #000;
-            border: 2px solid #333;
-            padding: 10px 25px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-align: left;
-            transition: 0.3s;
-        }
-
+        .app-btns { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 40px; }
+        .app-btn { background: #000; border: 2px solid #333; padding: 10px 25px; border-radius: 10px; display: flex; align-items: center; gap: 12px; text-align: left; transition: var(--transition); }
         .app-btn:hover { border-color: var(--secondary); background: #111; }
-        .app-btn i { font-size: 1.8rem; }
         .app-btn span { display: block; font-size: 0.7rem; color: var(--text-muted); }
         .app-btn strong { font-size: 1.1rem; }
 
-        .qr-box {
-            display: inline-block;
-            background: white;
-            padding: 10px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-
-        .qr-placeholder {
-            width: 100px;
-            height: 100px;
-            background: #eee;
-            border: 1px dashed #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-            font-size: 0.6rem;
-            text-transform: uppercase;
-        }
-
-        /* 9. FOOTER */
-        footer {
-            background: #050505;
-            padding: 80px 0 40px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 50px;
-            margin-bottom: 60px;
-        }
-
-        @media (min-width: 768px) {
-            .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
-        }
-
+        /* ── FOOTER ── */
+        footer { background: #050505; padding: 80px 0 40px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .footer-grid { display: grid; grid-template-columns: 1fr; gap: 50px; margin-bottom: 60px; }
+        @media (min-width: 768px) { .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; } }
         .footer-brand .logo { margin-bottom: 20px; display: inline-block; }
         .footer-brand p { color: var(--text-muted); max-width: 300px; margin-bottom: 25px; }
-
         .social-links { display: flex; gap: 15px; }
-        .social-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--surface);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.3s;
-        }
-
+        .social-icon { width: 40px; height: 40px; background: var(--surface); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
         .social-icon:hover { background: var(--primary); transform: translateY(-5px); }
-
         .footer-links h4 { margin-bottom: 25px; color: var(--secondary); }
         .footer-links li { margin-bottom: 12px; }
         .footer-links a { color: var(--text-muted); font-size: 0.9rem; }
         .footer-links a:hover { color: white; padding-left: 5px; }
+        .footer-bottom { text-align: center; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); font-size: 0.8rem; }
 
-        .footer-bottom {
-            text-align: center;
-            padding-top: 40px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            color: var(--text-muted);
-            font-size: 0.8rem;
+        /* ── READER MODAL ── */
+        .reader-overlay {
+            display: none; position: fixed; inset: 0; z-index: 9999;
+            background: rgba(0,0,0,0.95); backdrop-filter: blur(6px);
+            overflow-y: auto;
         }
+        .reader-overlay.active { display: block; animation: fadeIn 0.3s ease; }
 
-        /* ANIMATIONS */
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
+        .reader-header {
+            position: sticky; top: 0; z-index: 10; background: var(--glass); backdrop-filter: blur(12px);
+            padding: 16px 24px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
         }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+        .reader-title { font-size: 1.3rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60%; }
+        .reader-close {
+            background: none; border: 2px solid rgba(255,255,255,0.2); color: white; width: 40px; height: 40px;
+            border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
+            transition: var(--transition);
         }
+        .reader-close:hover { border-color: var(--primary); color: var(--primary); transform: rotate(90deg); }
 
-        /* MOBILE RESPONSIVE */
+        .reader-content { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+
+        .reader-manga-info {
+            display: flex; gap: 24px; margin-bottom: 40px; padding: 24px;
+            background: var(--surface); border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.06);
+        }
+        .reader-cover { width: 160px; height: 230px; border-radius: 12px; object-fit: cover; flex-shrink: 0; }
+        .reader-details { flex: 1; }
+        .reader-details h2 { font-size: 2rem; margin-bottom: 8px; }
+        .reader-details .reader-genre { color: var(--secondary); font-size: 0.85rem; font-weight: 700; margin-bottom: 12px; }
+        .reader-details .reader-score { color: var(--tertiary); font-size: 1.1rem; margin-bottom: 16px; }
+        .reader-details .reader-synopsis { color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; max-height: 120px; overflow: hidden; }
+
+        .chapter-list-title { font-size: 1.8rem; margin-bottom: 20px; }
+
+        .chapter-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-bottom: 30px; }
+        .chapter-btn {
+            padding: 14px 12px; background: var(--surface); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px; color: var(--text-main); text-align: center; cursor: pointer;
+            transition: var(--transition); font-family: var(--font-body); font-size: 0.85rem; font-weight: 600;
+        }
+        .chapter-btn:hover { background: var(--primary); border-color: var(--primary); transform: translateY(-2px); }
+        .chapter-btn .ch-num { display: block; font-size: 1.1rem; margin-bottom: 2px; }
+        .chapter-btn .ch-label { display: block; font-size: 0.7rem; color: var(--text-muted); }
+        .chapter-btn:hover .ch-label { color: rgba(255,255,255,0.8); }
+
+        .reader-pages { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .reader-pages img { max-width: 100%; border-radius: 4px; }
+
+        .reader-fallback {
+            text-align: center; padding: 50px 20px; background: var(--surface);
+            border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.06);
+        }
+        .reader-fallback h3 { font-size: 1.8rem; margin-bottom: 12px; }
+        .reader-fallback p { color: var(--text-muted); margin-bottom: 24px; }
+        .reader-fallback .btn { display: inline-flex; align-items: center; gap: 8px; }
+
+        .reader-loading { text-align: center; padding: 60px; color: var(--text-muted); font-size: 1rem; }
+
+        /* ── ANIMATIONS ── */
+        @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .spinner { width: 36px; height: 36px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--primary);
+            border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+
+        /* ── MOBILE ── */
         @media (max-width: 768px) {
             .hero-title { font-size: 2.5rem; }
             .hero-subtitle { font-size: 1rem; }
@@ -635,39 +325,39 @@
             .hero-bg-panels { opacity: 0.2; transform: translateY(-50%) rotate(-5deg) scale(0.6); right: -30%; }
             .now-reading { bottom: 5%; right: 5%; transform: scale(0.8); animation: none; }
             .stat-item h3 { font-size: 2.5rem; }
-            .step-num { font-size: 4rem; top: -10px; right: 10px; }
-            .footer-brand p { max-width: 100%; }
             .hero-btns { flex-direction: column; width: 100%; }
             .hero-btns .btn { width: 100%; text-align: center; }
+            .search-wrapper { max-width: 200px; }
+            .reader-manga-info { flex-direction: column; align-items: center; text-align: center; }
+            .reader-cover { width: 120px; height: 170px; }
         }
 
-        /* UTILITIES */
         .text-accent { color: var(--primary); }
         .text-secondary { color: var(--secondary); }
-        .bg-halftone {
-            background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 15px 15px;
-        }
+        .bg-halftone { background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 15px 15px; }
     </style>
 </head>
 <body>
 
-    <!-- 1. NAVBAR -->
+    <!-- NAVBAR -->
     <nav id="navbar">
         <div class="container nav-content">
-            <a href="#home" class="logo">ZynqToon</a>
+            <a href="#home" class="logo" id="logo-link">ZynqToon</a>
+            <div class="search-wrapper">
+                <input type="text" id="search-input" class="search-input" placeholder="Search manga..." autocomplete="off">
+                <button class="search-btn" id="search-btn" aria-label="Search">🔍</button>
+            </div>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#explore">Explore</a></li>
                 <li><a href="#genres">Genres</a></li>
                 <li><a href="#how">About</a></li>
-                <li><a href="#download">Download</a></li>
             </ul>
-            <a href="#explore" class="btn btn-primary">Start Reading</a>
+            <a href="#explore" class="btn btn-primary" style="flex-shrink:0;">Start Reading</a>
         </div>
     </nav>
 
-    <!-- 2. HERO SECTION -->
+    <!-- HERO -->
     <section id="home">
         <div class="container">
             <div class="hero-content">
@@ -679,362 +369,465 @@
                 </div>
             </div>
         </div>
-
-        <div class="hero-bg-panels">
-            <div class="panel"></div>
-            <div class="panel"></div>
-            <div class="panel"></div>
-            <div class="panel"></div>
-        </div>
-
+        <div class="hero-bg-panels"><div class="panel"></div><div class="panel"></div><div class="panel"></div><div class="panel"></div></div>
         <div class="now-reading">
             <div class="badge-cover"></div>
-            <div class="badge-info">
-                <h4>Neon Witch</h4>
-                <p>Now Reading • Action</p>
-            </div>
+            <div class="badge-info"><h4>Neon Witch</h4><p>Now Reading • Action</p></div>
         </div>
     </section>
 
-    <!-- 3. FEATURED COMICS -->
+    <!-- SEARCH RESULTS (dynamic) -->
+    <section id="search-results">
+        <div class="container">
+            <div class="search-results-header">
+                <h2 id="search-results-title">🔍 Results</h2>
+                <button class="clear-search" id="clear-search">✕ Clear Search</button>
+            </div>
+            <div id="search-results-grid" class="search-grid"></div>
+        </div>
+    </section>
+
+    <!-- FEATURED COMICS -->
     <section id="explore">
         <div class="container">
             <h2 class="section-title">🔥 Trending Now</h2>
-            <div class="comic-row" id="trending-row">
-                <!-- JS will populate or we can hardcode for speed -->
+            <div class="carousel-wrapper">
+                <button class="carousel-arrow left" data-target="trending-row">‹</button>
+                <div class="comic-row" id="trending-row"></div>
+                <button class="carousel-arrow right" data-target="trending-row">›</button>
             </div>
 
             <h2 class="section-title" style="margin-top: 80px;">✨ New Releases</h2>
-            <div class="comic-row" id="new-row">
-                <!-- JS will populate -->
+            <div class="carousel-wrapper">
+                <button class="carousel-arrow left" data-target="new-row">‹</button>
+                <div class="comic-row" id="new-row"></div>
+                <button class="carousel-arrow right" data-target="new-row">›</button>
             </div>
         </div>
     </section>
 
-    <!-- 4. GENRE EXPLORER -->
+    <!-- GENRE EXPLORER -->
     <section id="genres" class="bg-halftone">
         <div class="container">
             <h2 class="section-title">Browse by Genre</h2>
             <div class="genre-grid">
-                <div class="genre-tile">
-                    <span class="genre-icon">💥</span>
-                    <h3 class="genre-name">Action</h3>
-                    <p class="genre-count">450+ Comics</p>
-                </div>
-                <div class="genre-tile">
-                    <span class="genre-icon">💖</span>
-                    <h3 class="genre-name">Romance</h3>
-                    <p class="genre-count">320+ Comics</p>
-                </div>
-                <div class="genre-tile">
-                    <span class="genre-icon">👻</span>
-                    <h3 class="genre-name">Horror</h3>
-                    <p class="genre-count">180+ Comics</p>
-                </div>
-                <div class="genre-tile">
-                    <span class="genre-icon">😂</span>
-                    <h3 class="genre-name">Comedy</h3>
-                    <p class="genre-count">210+ Comics</p>
-                </div>
-                <div class="genre-tile">
-                    <span class="genre-icon">🧙‍♂️</span>
-                    <h3 class="genre-name">Fantasy</h3>
-                    <p class="genre-count">540+ Comics</p>
-                </div>
-                <div class="genre-tile">
-                    <span class="genre-icon">🚀</span>
-                    <h3 class="genre-name">Sci-Fi</h3>
-                    <p class="genre-count">290+ Comics</p>
-                </div>
-                <div class="genre-tile">
-                    <span class="genre-icon">🍕</span>
-                    <h3 class="genre-name">Slice of Life</h3>
-                    <p class="genre-count">150+ Comics</p>
-                </div>
-                <div class="genre-tile">
-                    <span class="genre-icon">🔍</span>
-                    <h3 class="genre-name">Mystery</h3>
-                    <p class="genre-count">120+ Comics</p>
-                </div>
+                <div class="genre-tile"><span class="genre-icon">💥</span><h3 class="genre-name">Action</h3><p class="genre-count">450+ Comics</p></div>
+                <div class="genre-tile"><span class="genre-icon">💖</span><h3 class="genre-name">Romance</h3><p class="genre-count">320+ Comics</p></div>
+                <div class="genre-tile"><span class="genre-icon">👻</span><h3 class="genre-name">Horror</h3><p class="genre-count">180+ Comics</p></div>
+                <div class="genre-tile"><span class="genre-icon">😂</span><h3 class="genre-name">Comedy</h3><p class="genre-count">210+ Comics</p></div>
+                <div class="genre-tile"><span class="genre-icon">🧙‍♂️</span><h3 class="genre-name">Fantasy</h3><p class="genre-count">540+ Comics</p></div>
+                <div class="genre-tile"><span class="genre-icon">🚀</span><h3 class="genre-name">Sci-Fi</h3><p class="genre-count">290+ Comics</p></div>
+                <div class="genre-tile"><span class="genre-icon">🍕</span><h3 class="genre-name">Slice of Life</h3><p class="genre-count">150+ Comics</p></div>
+                <div class="genre-tile"><span class="genre-icon">🔍</span><h3 class="genre-name">Mystery</h3><p class="genre-count">120+ Comics</p></div>
             </div>
         </div>
     </section>
 
-    <!-- 5. HOW IT WORKS -->
+    <!-- HOW IT WORKS -->
     <section id="how">
         <div class="container">
             <h2 class="section-title">Reading Has Never Been This Good</h2>
             <div class="steps-container">
-                <div class="step-card">
-                    <div class="step-num">01</div>
-                    <div class="step-icon">🔍</div>
-                    <h3 class="step-title">Discover</h3>
-                    <p class="step-desc">Browse thousands of titles across every genre. Our smart engine finds exactly what you love.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-num">02</div>
-                    <div class="step-icon">📖</div>
-                    <h3 class="step-title">Read</h3>
-                    <p class="step-desc">Enjoy seamless panel-by-panel or scroll reading. Optimized for every screen size.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-num">03</div>
-                    <div class="step-icon">❤️</div>
-                    <h3 class="step-title">Save & Follow</h3>
-                    <p class="step-desc">Bookmark favorites and get new chapter alerts instantly. Never miss a beat.</p>
-                </div>
+                <div class="step-card"><div class="step-num">01</div><div class="step-icon">🔍</div><h3 class="step-title">Discover</h3><p class="step-desc">Browse thousands of titles across every genre. Our smart engine finds exactly what you love.</p></div>
+                <div class="step-card"><div class="step-num">02</div><div class="step-icon">📖</div><h3 class="step-title">Read</h3><p class="step-desc">Enjoy seamless panel-by-panel or scroll reading. Optimized for every screen size.</p></div>
+                <div class="step-card"><div class="step-num">03</div><div class="step-icon">❤️</div><h3 class="step-title">Save & Follow</h3><p class="step-desc">Bookmark favorites and get new chapter alerts instantly. Never miss a beat.</p></div>
             </div>
         </div>
     </section>
 
-    <!-- 6. STATS BAR -->
+    <!-- STATS BAR -->
     <div class="stats-bar">
         <div class="container">
             <div class="stats-content">
-                <div class="stat-item">
-                    <h3 class="stat-number" data-target="500">0</h3>
-                    <p>Readers</p>
-                </div>
-                <div class="stat-item">
-                    <h3 class="stat-number" data-target="10000">0</h3>
-                    <p>Comics</p>
-                </div>
-                <div class="stat-item">
-                    <h3 class="stat-number" data-target="150">0</h3>
-                    <p>Genres</p>
-                </div>
-                <div class="stat-item">
-                    <h3 class="stat-number" data-target="4.9">0</h3>
-                    <p>Rating</p>
-                </div>
+                <div class="stat-item"><h3 class="stat-number" data-target="500">0</h3><p>Readers</p></div>
+                <div class="stat-item"><h3 class="stat-number" data-target="10000">0</h3><p>Comics</p></div>
+                <div class="stat-item"><h3 class="stat-number" data-target="150">0</h3><p>Genres</p></div>
+                <div class="stat-item"><h3 class="stat-number" data-target="4.9">0</h3><p>Rating</p></div>
             </div>
         </div>
     </div>
 
-    <!-- 7. TESTIMONIALS -->
+    <!-- TESTIMONIALS -->
     <section id="testimonials">
         <div class="container">
             <h2 class="section-title">What Readers Are Saying</h2>
             <div class="testimonial-grid">
                 <div class="testimonial-card">
                     <div class="quote-bubble">"I literally can't stop reading. The scroll mode is so smooth and the art quality is insane!"</div>
-                    <div class="user-info">
-                        <div class="avatar" style="background: var(--primary);">JD</div>
-                        <div class="user-details">
-                            <h4>Jake D.</h4>
-                            <p>22 • New York</p>
-                        </div>
-                    </div>
+                    <div class="user-info"><div class="avatar" style="background: var(--primary);">JD</div><div class="user-details"><h4>Jake D.</h4><p>22 • New York</p></div></div>
                 </div>
                 <div class="testimonial-card">
                     <div class="quote-bubble">"Finally an app that has all my niche genres. The recommendations are actually good!"</div>
-                    <div class="user-info">
-                        <div class="avatar" style="background: var(--secondary);">SL</div>
-                        <div class="user-details">
-                            <h4>Sarah L.</h4>
-                            <p>19 • London</p>
-                        </div>
-                    </div>
+                    <div class="user-info"><div class="avatar" style="background: var(--secondary);">SL</div><div class="user-details"><h4>Sarah L.</h4><p>19 • London</p></div></div>
                 </div>
                 <div class="testimonial-card">
                     <div class="quote-bubble">"Best comic app on the market. Period. The community features make it so much fun."</div>
-                    <div class="user-info">
-                        <div class="avatar" style="background: var(--tertiary);">MK</div>
-                        <div class="user-details">
-                            <h4>Mike K.</h4>
-                            <p>26 • Tokyo</p>
-                        </div>
-                    </div>
+                    <div class="user-info"><div class="avatar" style="background: var(--tertiary);">MK</div><div class="user-details"><h4>Mike K.</h4><p>26 • Tokyo</p></div></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 8. DOWNLOAD CTA -->
+    <!-- DOWNLOAD CTA -->
     <section id="download" class="download-section">
         <div class="container">
             <h2 class="download-title">Your next obsession is <span class="text-accent">one tap away.</span></h2>
             <p class="download-subtitle">Free to download. Thousands of comics waiting for you.</p>
-            
             <div class="app-btns">
-                <a href="#" class="app-btn">
-                    <i style="font-style: normal; font-size: 2rem;">🍎</i>
-                    <div>
-                        <span>Download on the</span>
-                        <strong>App Store</strong>
-                    </div>
-                </a>
-                <a href="#" class="app-btn">
-                    <i style="font-style: normal; font-size: 2rem;">🤖</i>
-                    <div>
-                        <span>Get it on</span>
-                        <strong>Google Play</strong>
-                    </div>
-                </a>
-            </div>
-
-            <div class="qr-box">
-                <div class="qr-placeholder">Scan to Download</div>
+                <a href="#" class="app-btn"><i style="font-style:normal;font-size:2rem;">🍎</i><div><span>Download on the</span><strong>App Store</strong></div></a>
+                <a href="#" class="app-btn"><i style="font-style:normal;font-size:2rem;">🤖</i><div><span>Get it on</span><strong>Google Play</strong></div></a>
             </div>
         </div>
     </section>
 
-    <!-- 9. FOOTER -->
+    <!-- FOOTER -->
     <footer>
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
                     <a href="#" class="logo">ZynqToon</a>
                     <p>Infinite stories for the next generation of readers. Join the revolution.</p>
-                    <div class="social-links">
-                        <a href="#" class="social-icon">📸</a>
-                        <a href="#" class="social-icon">🎵</a>
-                        <a href="#" class="social-icon">🐦</a>
-                        <a href="#" class="social-icon">💬</a>
-                    </div>
+                    <div class="social-links"><a href="#" class="social-icon">📸</a><a href="#" class="social-icon">🎵</a><a href="#" class="social-icon">🐦</a><a href="#" class="social-icon">💬</a></div>
                 </div>
-                <div class="footer-links">
-                    <h4>Explore</h4>
-                    <ul>
-                        <li><a href="#">Trending</a></li>
-                        <li><a href="#">New Releases</a></li>
-                        <li><a href="#">Popular</a></li>
-                        <li><a href="#">Editor's Choice</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Company</h4>
-                    <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Press</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="#">Help Center</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Use</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </div>
+                <div class="footer-links"><h4>Explore</h4><ul><li><a href="#">Trending</a></li><li><a href="#">New Releases</a></li><li><a href="#">Popular</a></li><li><a href="#">Editor's Choice</a></li></ul></div>
+                <div class="footer-links"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Careers</a></li><li><a href="#">Blog</a></li><li><a href="#">Press</a></li></ul></div>
+                <div class="footer-links"><h4>Support</h4><ul><li><a href="#">Help Center</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Use</a></li><li><a href="#">Contact</a></li></ul></div>
             </div>
-            <div class="footer-bottom">
-                <p>© 2025 ZynqToon. All rights reserved. Made for readers. Built by fans.</p>
-            </div>
+            <div class="footer-bottom"><p>&copy; 2025 ZynqToon. All rights reserved. Made for readers. Built by fans.</p></div>
         </div>
     </footer>
 
-    <script>
-        // 1. Sticky Navbar Glass Effect
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-        });
+    <!-- READER MODAL -->
+    <div class="reader-overlay" id="reader-overlay">
+        <div class="reader-header">
+            <span class="reader-title" id="reader-title">Loading...</span>
+            <button class="reader-close" id="reader-close">✕</button>
+        </div>
+        <div class="reader-content" id="reader-content">
+            <div class="reader-loading"><div class="spinner"></div><p>Loading manga details...</p></div>
+        </div>
+    </div>
 
-        // 2. Populate Comic Cards
-        async function loadComics() {
-            try {
-                const response = await fetch('./comics.json');
-                if (!response.ok) throw new Error('Not found');
-                const data = await response.json();
-                
-                const trendingRow = document.getElementById('trending-row');
-                const newRow = document.getElementById('new-row');
-                
-                if (data.trending && data.trending.length) {
-                    trendingRow.innerHTML = data.trending.map(c => createComicCard(c)).join('');
-                }
-                if (data.newReleases && data.newReleases.length) {
-                    newRow.innerHTML = data.newReleases.map(c => createComicCard(c)).join('');
-                }
-            } catch (err) {
-                console.error('Failed to load comics.json', err);
-            }
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// ZynqToon v2 — Carousel, Search, Reader
+// ═══════════════════════════════════════════════════════════════════
+
+// ── 1. Sticky Navbar ──
+window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// ── 2. Load & Render Comics ──
+async function loadComics() {
+    try {
+        const response = await fetch('./comics.json');
+        if (!response.ok) throw new Error('Not found');
+        const data = await response.json();
+
+        if (data?.trending?.length) {
+            document.getElementById('trending-row').innerHTML = data.trending.map(c => createComicCard(c)).join('');
         }
+        if (data?.newReleases?.length) {
+            document.getElementById('new-row').innerHTML = data.newReleases.map(c => createComicCard(c)).join('');
+        }
+    } catch (err) {
+        console.error('Failed to load comics.json', err);
+    }
+}
 
-        function createComicCard(comic) {
-            const backgroundStyle = comic.image 
-                ? `background: url('${comic.image}') center/cover no-repeat;` 
-                : `background: ${comic.color || '#333'};`;
-            
-            // If image is present, we might want to hide the giant title text block in the middle of cover 
-            // to show off the actual artwork. Let's make it conditional or keep it visible at the bottom.
-            const titleBlock = comic.image 
-                ? '' 
-                : `<h3>${comic.title}</h3>`;
+function createComicCard(comic) {
+    const bgStyle = comic.image
+        ? `background-image: url('${comic.image}'); background-size: cover; background-position: center;`
+        : `background: linear-gradient(135deg, #667eea, #764ba2);`;
 
-            return `
-                <div class="comic-card">
-                    <div class="card-img" style="${backgroundStyle}">
-                        <div class="card-overlay"></div>
-                        ${titleBlock}
-                    </div>
-                    <div class="card-body">
-                        <span class="genre-badge">${comic.genre}</span>
-                        <h4 class="card-title" title="${comic.title}">${comic.title}</h4>
-                        <div class="card-meta">
-                            <span class="rating">★ ${comic.rating}</span>
-                            <span style="font-size: 0.8rem; color: var(--text-muted);">Ch ${comic.lastChapter || comic.chapter || '?'}</span>
-                        </div>
-                        <a href="https://mangadex.org/titles?q=${encodeURIComponent(comic.title)}" target="_blank" rel="noopener noreferrer" class="read-btn" style="display:block; margin-top:10px;">Read Now →</a>
-                    </div>
+    const chapterText = comic.lastChapter || comic.chapter || '?';
+
+    return `
+        <div class="comic-card">
+            <div class="card-img" style="${bgStyle}">
+                <div class="card-overlay"></div>
+            </div>
+            <div class="card-body">
+                <span class="genre-badge">${comic.genre?.split(',').slice(0,2).join(', ') || 'Manga'}</span>
+                <h4 class="card-title" title="${comic.title}">${comic.title}</h4>
+                <div class="card-meta">
+                    <span class="rating">★ ${comic.rating}</span>
+                    <span style="font-size:0.8rem;color:var(--text-muted);">Ch ${chapterText}</span>
                 </div>
-            `;
+                <a href="javascript:void(0)" onclick="openReader('${comic.title.replace(/'/g, "\\'")}', '${comic.image || ''}', '${comic.genre || ''}', '${comic.rating || ''}')" class="read-btn">📖 Read Now</a>
+            </div>
+        </div>
+    `;
+}
+
+loadComics();
+
+// ── 3. Carousel Arrows ──
+document.querySelectorAll('.carousel-arrow').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const row = document.getElementById(btn.dataset.target);
+        const scrollAmount = 260;
+        if (btn.classList.contains('left')) {
+            row.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        } else {
+            row.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+    });
+});
+
+// ── 4. Global Search ──
+const searchInput = document.getElementById('search-input');
+const searchBtn = document.getElementById('search-btn');
+const searchResultsSection = document.getElementById('search-results');
+const searchResultsGrid = document.getElementById('search-results-grid');
+const searchResultsTitle = document.getElementById('search-results-title');
+const clearSearchBtn = document.getElementById('clear-search');
+const exploreSection = document.getElementById('explore');
+
+async function performSearch(query) {
+    if (!query.trim()) return;
+
+    searchResultsSection.classList.add('active');
+    exploreSection.style.display = 'none';
+    searchResultsTitle.textContent = `🔍 Results for "${query}"`;
+    searchResultsGrid.innerHTML = '<div class="search-loading"><div class="spinner"></div><p>Searching manga...</p></div>';
+    searchResultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    try {
+        const res = await fetch(`https://api.jikan.moe/v4/manga?q=${encodeURIComponent(query)}&sfw=true&limit=16`);
+        const json = await res.json();
+        const results = json?.data || [];
+
+        if (results.length === 0) {
+            searchResultsGrid.innerHTML = '<div class="search-empty"><h3>No results found</h3><p>Try a different search term</p></div>';
+            return;
         }
 
-        loadComics();
+        searchResultsGrid.innerHTML = results.map(item => {
+            const title = item.title || 'Unknown';
+            const image = item.images?.webp?.large_image_url || item.images?.jpg?.large_image_url || '';
+            const genres = (item.genres || []).map(g => g.name).join(', ') || 'Manga';
+            const score = item.score ? item.score.toFixed(1) : '—';
 
-        // 3. Stats Count-up Animation
-        const stats = document.querySelectorAll('.stat-number');
-        const observerOptions = { threshold: 0.5 };
-
-        const statsObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const target = entry.target;
-                    const countTo = parseFloat(target.getAttribute('data-target'));
-                    let current = 0;
-                    const duration = 2000;
-                    const stepTime = 20;
-                    const steps = duration / stepTime;
-                    const increment = countTo / steps;
-
-                    const timer = setInterval(() => {
-                        current += increment;
-                        if (current >= countTo) {
-                            target.innerText = countTo % 1 === 0 ? countTo + (countTo >= 500 ? '+' : '') : countTo + '★';
-                            clearInterval(timer);
-                        } else {
-                            target.innerText = Math.floor(current) + (countTo >= 500 ? '+' : '');
-                        }
-                    }, stepTime);
-                    observer.unobserve(target);
-                }
+            return createComicCard({
+                id: item.mal_id,
+                title, genre: genres, rating: score, image,
+                lastChapter: item.chapters ? String(item.chapters) : '?'
             });
-        }, observerOptions);
+        }).join('');
 
-        stats.forEach(stat => statsObserver.observe(stat));
+    } catch (err) {
+        console.error('Search failed', err);
+        searchResultsGrid.innerHTML = '<div class="search-empty"><h3>Search failed</h3><p>Please try again later</p></div>';
+    }
+}
 
-        // 4. Smooth Scroll for Anchor Links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
+searchBtn.addEventListener('click', () => performSearch(searchInput.value));
+searchInput.addEventListener('keydown', e => { if (e.key === 'Enter') performSearch(searchInput.value); });
+
+clearSearchBtn.addEventListener('click', () => {
+    searchResultsSection.classList.remove('active');
+    exploreSection.style.display = '';
+    searchInput.value = '';
+});
+
+document.getElementById('logo-link').addEventListener('click', () => {
+    searchResultsSection.classList.remove('active');
+    exploreSection.style.display = '';
+    searchInput.value = '';
+});
+
+// ── 5. In-App Reader ──
+const readerOverlay = document.getElementById('reader-overlay');
+const readerTitle = document.getElementById('reader-title');
+const readerContent = document.getElementById('reader-content');
+const readerClose = document.getElementById('reader-close');
+
+readerClose.addEventListener('click', closeReader);
+readerOverlay.addEventListener('click', e => { if (e.target === readerOverlay) closeReader(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeReader(); });
+
+function closeReader() {
+    readerOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+    readerContent.innerHTML = '';
+}
+
+async function openReader(title, image, genre, rating) {
+    readerOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    readerTitle.textContent = title;
+    readerContent.innerHTML = '<div class="reader-loading"><div class="spinner"></div><p>Loading manga details...</p></div>';
+
+    try {
+        // Step 1: Search MangaDex for this manga
+        const searchRes = await fetch(`https://api.mangadex.org/manga?title=${encodeURIComponent(title)}&limit=1&includes[]=cover_art`);
+        const searchJson = await searchRes.json();
+        const manga = searchJson?.data?.[0];
+
+        if (!manga) throw new Error('not_found');
+
+        const mangaId = manga.id;
+        const mangaAttr = manga.attributes;
+        const synopsis = mangaAttr.description?.en || 'No synopsis available.';
+
+        // Step 2: Fetch chapters
+        await new Promise(r => setTimeout(r, 500)); // Rate limit
+        const chapRes = await fetch(`https://api.mangadex.org/manga/${mangaId}/feed?translatedLanguage[]=en&order[chapter]=asc&limit=50&includes[]=scanlation_group`);
+        const chapJson = await chapRes.json();
+        const chapters = chapJson?.data || [];
+
+        // Deduplicate chapters by chapter number
+        const chapterMap = new Map();
+        for (const ch of chapters) {
+            const num = ch.attributes.chapter || '0';
+            if (!chapterMap.has(num)) chapterMap.set(num, ch);
+        }
+        const uniqueChapters = Array.from(chapterMap.values());
+
+        // Build reader UI
+        readerContent.innerHTML = `
+            <div class="reader-manga-info">
+                <img src="${image}" alt="${title}" class="reader-cover" onerror="this.style.display='none'">
+                <div class="reader-details">
+                    <h2>${title}</h2>
+                    <div class="reader-genre">${genre}</div>
+                    <div class="reader-score">★ ${rating}</div>
+                    <div class="reader-synopsis">${synopsis.substring(0, 300)}${synopsis.length > 300 ? '...' : ''}</div>
+                </div>
+            </div>
+
+            ${uniqueChapters.length > 0 ? `
+                <h3 class="chapter-list-title">📚 Chapters (${uniqueChapters.length})</h3>
+                <div class="chapter-grid">
+                    ${uniqueChapters.map(ch => {
+                        const chNum = ch.attributes.chapter || '?';
+                        const chTitle = ch.attributes.title || '';
+                        return `<button class="chapter-btn" onclick="loadChapterPages('${ch.id}', '${title.replace(/'/g, "\\'")}', '${chNum}')">
+                            <span class="ch-num">Ch ${chNum}</span>
+                            <span class="ch-label">${chTitle || 'Read'}</span>
+                        </button>`;
+                    }).join('')}
+                </div>
+            ` : ''}
+
+            <div class="reader-fallback">
+                <h3>📖 Start Reading</h3>
+                <p>${uniqueChapters.length > 0 ? 'Click a chapter above, or read on MangaDex directly:' : 'Chapters are not available in-app. Read on MangaDex:'}</p>
+                <a href="https://mangadex.org/titles?q=${encodeURIComponent(title)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                    Open on MangaDex →
+                </a>
+            </div>
+        `;
+
+    } catch (err) {
+        console.warn('Reader fetch failed:', err);
+        // Graceful fallback UI
+        readerContent.innerHTML = `
+            <div class="reader-manga-info">
+                <img src="${image}" alt="${title}" class="reader-cover" onerror="this.style.display='none'">
+                <div class="reader-details">
+                    <h2>${title}</h2>
+                    <div class="reader-genre">${genre}</div>
+                    <div class="reader-score">★ ${rating}</div>
+                </div>
+            </div>
+            <div class="reader-fallback">
+                <h3>📚 Reader Unavailable</h3>
+                <p>Chapter data couldn't be loaded (ISP blocking or CORS restriction). You can read this manga on MangaDex directly:</p>
+                <a href="https://mangadex.org/titles?q=${encodeURIComponent(title)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                    Open on MangaDex →
+                </a>
+                <div style="margin-top:16px;">
+                    <a href="https://myanimelist.net/manga/${encodeURIComponent(title)}" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+                        View on MyAnimeList
+                    </a>
+                </div>
+            </div>
+        `;
+    }
+}
+
+async function loadChapterPages(chapterId, title, chapterNum) {
+    readerTitle.textContent = `${title} — Chapter ${chapterNum}`;
+    readerContent.innerHTML = '<div class="reader-loading"><div class="spinner"></div><p>Loading chapter pages...</p></div>';
+    readerContent.scrollTo({ top: 0 });
+
+    try {
+        const res = await fetch(`https://api.mangadex.org/at-home/server/${chapterId}`);
+        const json = await res.json();
+        const baseUrl = json?.baseUrl;
+        const chapterHash = json?.chapter?.hash;
+        const pages = json?.chapter?.data || [];
+
+        if (!baseUrl || !pages.length) throw new Error('no_pages');
+
+        readerContent.innerHTML = `
+            <div style="text-align:center;margin-bottom:20px;">
+                <button onclick="openReader('${title.replace(/'/g, "\\'")}', '', '', '')" class="btn btn-outline" style="font-size:0.8rem;">← Back to Chapters</button>
+                <span style="margin:0 12px;color:var(--text-muted);">Chapter ${chapterNum} • ${pages.length} pages</span>
+            </div>
+            <div class="reader-pages">
+                ${pages.map((page, i) => `<img src="${baseUrl}/data/${chapterHash}/${page}" alt="Page ${i+1}" loading="lazy">`).join('')}
+            </div>
+            <div style="text-align:center;margin-top:30px;">
+                <button onclick="openReader('${title.replace(/'/g, "\\'")}', '', '', '')" class="btn btn-primary">← Back to Chapters</button>
+            </div>
+        `;
+
+    } catch (err) {
+        console.warn('Failed to load chapter pages:', err);
+        readerContent.innerHTML = `
+            <div class="reader-fallback">
+                <h3>Could not load pages</h3>
+                <p>This may be due to CORS restrictions or ISP blocking. Try reading directly on MangaDex:</p>
+                <a href="https://mangadex.org/chapter/${chapterId}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                    Read Chapter ${chapterNum} on MangaDex →
+                </a>
+                <div style="margin-top:16px;">
+                    <button onclick="openReader('${title.replace(/'/g, "\\'")}', '', '', '')" class="btn btn-outline">← Back to Chapters</button>
+                </div>
+            </div>
+        `;
+    }
+}
+
+// ── 6. Stats Counter ──
+const stats = document.querySelectorAll('.stat-number');
+const statsObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const target = entry.target;
+            const countTo = parseFloat(target.dataset.target);
+            let current = 0;
+            const steps = 100;
+            const increment = countTo / steps;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= countTo) {
+                    target.innerText = countTo % 1 === 0 ? countTo + (countTo >= 500 ? '+' : '') : countTo + '★';
+                    clearInterval(timer);
+                } else {
+                    target.innerText = Math.floor(current) + (countTo >= 500 ? '+' : '');
                 }
-            });
-        });
-    </script>
+            }, 20);
+            observer.unobserve(target);
+        }
+    });
+}, { threshold: 0.5 });
+stats.forEach(stat => statsObserver.observe(stat));
+
+// ── 7. Smooth Scrolling ──
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        if (this.getAttribute('href') === '#') return;
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
+    });
+});
+</script>
 </body>
 </html>
