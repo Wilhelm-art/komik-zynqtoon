@@ -783,20 +783,37 @@ async function openReader(title, image, genre, rating) {
     readerContent.innerHTML = '<div class="reader-loading"><div class="spinner"></div><p>Loading manga details...</p></div>';
 
     try {
-        // Step 1: Search Consumet (Mangakakalot) via Vercel proxy
-        const consumetSearch = encodeURIComponent(`https://api.consumet.org/manga/mangakakalot/${encodeURIComponent(title)}`);
-        const searchRes = await fetch(`/api/proxy?url=${consumetSearch}`);
-        const searchJson = await searchRes.json();
-        const results = searchJson?.results || [];
-        
-        if (results.length === 0) throw new Error('not_found_on_consumet');
+        let results = [];
+        let consumetId = '';
+        let synopsis = 'No synopsis available.';
+        let provider = 'bato';
 
-        const consumetId = results[0].id;
-        const synopsis = results[0].description || 'No synopsis available.';
+        // Try Bato first per instructions
+        try {
+            const batoSearch = encodeURIComponent(`https://api.consumet.org/manga/bato/${encodeURIComponent(title)}`);
+            const searchRes = await fetch(`/api/proxy?url=${batoSearch}`);
+            const searchJson = await searchRes.json();
+            results = searchJson?.results || [];
+            
+            if (results.length === 0) throw new Error('not_found_on_bato');
+            consumetId = results[0].id;
+            synopsis = results[0].description || synopsis;
+        } catch (batoErr) {
+            console.warn('Bato search failed, failing over to MangaDex provider via Consumet...', batoErr);
+            provider = 'mangadex';
+            const mdxSearch = encodeURIComponent(`https://api.consumet.org/manga/mangadex/${encodeURIComponent(title)}`);
+            const searchRes = await fetch(`/api/proxy?url=${mdxSearch}`);
+            const searchJson = await searchRes.json();
+            results = searchJson?.results || [];
 
-        // Step 2: Fetch chapter info from Consumet via proxy
+            if (results.length === 0) throw new Error('not_found_on_any_provider');
+            consumetId = results[0].id;
+            synopsis = results[0].description || synopsis;
+        }
+
+        // Fetch chapter info from resolved provider
         await new Promise(r => setTimeout(r, 500)); // Rate limit pause
-        const infoUrl = encodeURIComponent(`https://api.consumet.org/manga/mangakakalot/info?id=${encodeURIComponent(consumetId)}`);
+        const infoUrl = encodeURIComponent(`https://api.consumet.org/manga/${provider}/info?id=${encodeURIComponent(consumetId)}`);
         const infoRes = await fetch(`/api/proxy?url=${infoUrl}`);
         const infoJson = await infoRes.json();
         let chapters = infoJson?.chapters || [];
@@ -824,7 +841,7 @@ async function openReader(title, image, genre, rating) {
                     ${chapters.map(ch => {
                         const chNum = ch.chapterNumber || ch.id.split('-').pop() || '?';
                         const chTitle = ch.title || `Chapter ${chNum}`;
-                        return `<button class="chapter-btn" onclick="loadChapterPages('${ch.id}', '${title.replace(/'/g, "\\'")}', '${chNum}')">
+                        return `<button class="chapter-btn" onclick="loadChapterPages('${ch.id}', '${title.replace(/'/g, "\\'")}', '${chNum}', '${provider}')">
                             <span class="ch-num">Ch ${chNum}</span>
                             <span class="ch-label">${chTitle}</span>
                         </button>`;
@@ -860,13 +877,13 @@ async function openReader(title, image, genre, rating) {
     }
 }
 
-async function loadChapterPages(chapterId, title, chapterNum) {
+async function loadChapterPages(chapterId, title, chapterNum, provider = 'bato') {
     readerTitle.textContent = `${title} — Chapter ${chapterNum}`;
     readerContent.innerHTML = '<div class="reader-loading"><div class="spinner"></div><p>Loading chapter pages...</p></div>';
     readerContent.scrollTo({ top: 0 });
 
     try {
-        const readUrl = encodeURIComponent(`https://api.consumet.org/manga/mangakakalot/read?chapterId=${encodeURIComponent(chapterId)}`);
+        const readUrl = encodeURIComponent(`https://api.consumet.org/manga/${provider}/read?chapterId=${encodeURIComponent(chapterId)}`);
         const res = await fetch(`/api/proxy?url=${readUrl}`);
         const json = await res.json();
         
@@ -885,7 +902,7 @@ async function loadChapterPages(chapterId, title, chapterNum) {
             <div class="reader-pages" style="display:flex; flex-direction:column; align-items:center; gap:0;">
                 ${pages.map((page, i) => {
                     const imgUrl = typeof page === 'string' ? page : (page.img || page.url);
-                    // Standard mangakakalot fix (referer issue occasionally) proxying image domains
+                    // Standard proxy wrapper for images to prevent referrer blocks
                     return `<img src="/api/proxy?url=${encodeURIComponent(imgUrl)}" alt="Page ${i+1}" loading="lazy" style="max-width:100%; display:block;">`;
                 }).join('')}
             </div>
