@@ -312,49 +312,49 @@
         .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); font-size: 0.75rem; }
         @media (min-width: 768px) { .footer-bottom { padding-top: 40px; font-size: 0.8rem; } }
 
-        /* ── READER MODAL ── */
-        .reader-overlay {
+        /* ── DETAILS MODAL ── */
+        .details-overlay {
             display: none; position: fixed; inset: 0; z-index: 9999;
-            background: rgba(0,0,0,0.97); backdrop-filter: blur(6px);
+            background: rgba(9,9,11,0.95); backdrop-filter: blur(8px);
             overflow-y: auto; -webkit-overflow-scrolling: touch;
         }
-        .reader-overlay.active { display: block; animation: fadeIn 0.3s ease; }
+        .details-overlay.active { display: block; animation: fadeIn 0.3s ease; }
 
-        .reader-header {
+        .details-header {
             position: sticky; top: 0; z-index: 10; background: var(--glass); backdrop-filter: blur(12px);
             padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid rgba(255,255,255,0.08); gap: 12px;
         }
-        @media (min-width: 768px) { .reader-header { padding: 16px 24px; } }
-        .reader-title { font-size: 1rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; min-width: 0; }
-        @media (min-width: 768px) { .reader-title { font-size: 1.3rem; } }
-        .reader-close {
+        @media (min-width: 768px) { .details-header { padding: 16px 24px; } }
+        .details-title { font-size: 1rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; min-width: 0; }
+        @media (min-width: 768px) { .details-title { font-size: 1.3rem; } }
+        .details-close {
             background: none; border: 2px solid rgba(255,255,255,0.2); color: white; width: 36px; height: 36px;
             border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center;
             transition: var(--transition); flex-shrink: 0;
         }
-        @media (min-width: 768px) { .reader-close { width: 40px; height: 40px; font-size: 1.2rem; } }
-        .reader-close:hover { border-color: var(--primary); color: var(--primary); transform: rotate(90deg); }
+        @media (min-width: 768px) { .details-close { width: 40px; height: 40px; font-size: 1.2rem; } }
+        .details-close:hover { border-color: var(--primary); color: var(--primary); transform: rotate(90deg); }
 
-        .reader-content { max-width: 900px; margin: 0 auto; padding: 20px 12px; }
-        @media (min-width: 768px) { .reader-content { padding: 40px 20px; } }
+        .details-content { max-width: 900px; margin: 0 auto; padding: 20px 12px; }
+        @media (min-width: 768px) { .details-content { padding: 40px 20px; } }
 
-        .reader-manga-info {
+        .details-manga-info {
             display: flex; flex-direction: column; align-items: center; text-align: center;
             gap: 16px; margin-bottom: 24px; padding: 16px;
             background: var(--surface); border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.06);
         }
-        @media (min-width: 640px) { .reader-manga-info { flex-direction: row; text-align: left; gap: 24px; padding: 24px; margin-bottom: 40px; } }
-        .reader-cover { width: 120px; height: 170px; border-radius: 12px; object-fit: cover; flex-shrink: 0; }
-        @media (min-width: 640px) { .reader-cover { width: 140px; height: 200px; } }
-        @media (min-width: 768px) { .reader-cover { width: 160px; height: 230px; } }
-        .reader-details { flex: 1; min-width: 0; }
-        .reader-details h2 { font-size: 1.4rem; margin-bottom: 6px; word-break: break-word; }
-        @media (min-width: 768px) { .reader-details h2 { font-size: 2rem; margin-bottom: 8px; } }
-        .reader-details .reader-genre { color: var(--secondary); font-size: 0.8rem; font-weight: 700; margin-bottom: 8px; }
-        .reader-details .reader-score { color: var(--tertiary); font-size: 1rem; margin-bottom: 12px; }
-        .reader-details .reader-synopsis { color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; max-height: 100px; overflow: hidden; }
-        @media (min-width: 768px) { .reader-details .reader-synopsis { font-size: 0.9rem; line-height: 1.7; max-height: 120px; } }
+        @media (min-width: 640px) { .details-manga-info { flex-direction: row; text-align: left; gap: 24px; padding: 24px; margin-bottom: 40px; } }
+        .details-cover { width: 120px; height: 170px; border-radius: 12px; object-fit: cover; flex-shrink: 0; }
+        @media (min-width: 640px) { .details-cover { width: 140px; height: 200px; } }
+        @media (min-width: 768px) { .details-cover { width: 160px; height: 230px; } }
+        .details-details { flex: 1; min-width: 0; }
+        .details-details h2 { font-size: 1.4rem; margin-bottom: 6px; word-break: break-word; }
+        @media (min-width: 768px) { .details-details h2 { font-size: 2rem; margin-bottom: 8px; } }
+        .details-details .details-genre { color: var(--secondary); font-size: 0.8rem; font-weight: 700; margin-bottom: 8px; }
+        .details-details .details-score { color: var(--tertiary); font-size: 1rem; margin-bottom: 12px; }
+        .details-details .details-synopsis { color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; max-height: 100px; overflow: hidden; }
+        @media (min-width: 768px) { .details-details .details-synopsis { font-size: 0.9rem; line-height: 1.7; max-height: 120px; } }
 
         .chapter-list-title { font-size: 1.4rem; margin-bottom: 16px; }
         @media (min-width: 768px) { .chapter-list-title { font-size: 1.8rem; margin-bottom: 20px; } }
@@ -375,17 +375,14 @@
         @media (min-width: 768px) { .chapter-btn .ch-label { font-size: 0.7rem; } }
         .chapter-btn:hover .ch-label { color: rgba(255,255,255,0.8); }
 
-        .reader-pages { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-        .reader-pages img { width: 100%; height: auto; object-fit: contain; border-radius: 0; }
-        @media (min-width: 768px) { .reader-pages img { max-width: 100%; border-radius: 4px; } .reader-pages { gap: 4px; } }
+        .details-pages { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+        .details-pages img { width: 100%; height: auto; object-fit: contain; border-radius: 0; }
+        @media (min-width: 768px) { .details-pages img { max-width: 100%; border-radius: 4px; } .details-pages { gap: 4px; } }
 
-        .reader-fallback {
+        .details-fallback {
             text-align: center; padding: 30px 16px; background: var(--surface);
             border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.06);
         }
-        @media (min-width: 768px) { .reader-fallback { padding: 50px 20px; } }
-        .reader-fallback h3 { font-size: 1.4rem; margin-bottom: 10px; }
-        @media (min-width: 768px) { .reader-fallback h3 { font-size: 1.8rem; margin-bottom: 12px; } }
         .reader-fallback p { color: var(--text-muted); margin-bottom: 20px; font-size: 0.9rem; }
         @media (min-width: 768px) { .reader-fallback p { margin-bottom: 24px; } }
         .reader-fallback .btn { display: inline-flex; align-items: center; gap: 8px; }
@@ -603,14 +600,14 @@
         </div>
     </footer>
 
-    <!-- READER MODAL -->
-    <div class="reader-overlay" id="reader-overlay">
-        <div class="reader-header">
-            <span class="reader-title" id="reader-title">Loading...</span>
-            <button class="reader-close" id="reader-close">✕</button>
+    <!-- DETAILS MODAL -->
+    <div class="details-overlay" id="details-overlay">
+        <div class="details-header">
+            <span class="details-title" id="details-title">Loading...</span>
+            <button class="details-close" id="details-close">✕</button>
         </div>
-        <div class="reader-content" id="reader-content">
-            <div class="reader-loading"><div class="spinner"></div><p>Loading manga details...</p></div>
+        <div class="details-content" id="details-content">
+            <div class="details-loading"><div class="spinner"></div><p>Fetching full catalog data...</p></div>
         </div>
     </div>
 
@@ -675,9 +672,9 @@ function createComicCard(comic) {
                 <h4 class="card-title" title="${comic.title}">${comic.title}</h4>
                 <div class="card-meta">
                     <span class="rating">★ ${comic.rating}</span>
-                    <span style="font-size:0.8rem;color:var(--text-muted);">Ch ${chapterText}</span>
+                    <span style="font-size:0.8rem;color:var(--text-muted);">${comic.lastChapter ? 'Ch ' + comic.lastChapter : ' '}</span>
                 </div>
-                <a href="javascript:void(0)" onclick="openReader('${comic.title.replace(/'/g, "\\'")}', '${comic.image || ''}', '${comic.genre || ''}', '${comic.rating || ''}')" class="read-btn">📖 Read Now</a>
+                <a href="javascript:void(0)" onclick="openDetails('${comic.id}')" class="read-btn">👁️ View Details</a>
             </div>
         </div>
     `;
@@ -760,168 +757,76 @@ document.getElementById('logo-link').addEventListener('click', () => {
     searchInput.value = '';
 });
 
-// ── 5. In-App Reader ──
-const readerOverlay = document.getElementById('reader-overlay');
-const readerTitle = document.getElementById('reader-title');
-const readerContent = document.getElementById('reader-content');
-const readerClose = document.getElementById('reader-close');
+// ── 5. Premium Details Modal ──
+const detailsOverlay = document.getElementById('details-overlay');
+const detailsTitle = document.getElementById('details-title');
+const detailsContent = document.getElementById('details-content');
+const detailsClose = document.getElementById('details-close');
 
-readerClose.addEventListener('click', closeReader);
-readerOverlay.addEventListener('click', e => { if (e.target === readerOverlay) closeReader(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeReader(); });
+detailsClose.addEventListener('click', closeDetails);
+detailsOverlay.addEventListener('click', e => { if (e.target === detailsOverlay) closeDetails(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetails(); });
 
-function closeReader() {
-    readerOverlay.classList.remove('active');
+function closeDetails() {
+    detailsOverlay.classList.remove('active');
     document.body.style.overflow = '';
-    readerContent.innerHTML = '';
+    detailsContent.innerHTML = '';
 }
 
-async function openReader(title, image, genre, rating) {
-    readerOverlay.classList.add('active');
+async function openDetails(malId) {
+    detailsOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
-    readerTitle.textContent = title;
-    readerContent.innerHTML = '<div class="reader-loading"><div class="spinner"></div><p>Loading manga details...</p></div>';
+    detailsTitle.textContent = 'Loading...';
+    detailsContent.innerHTML = '<div class="details-loading"><div class="spinner"></div><p>Fetching full catalog data...</p></div>';
 
     try {
-        let results = [];
-        let consumetId = '';
-        let synopsis = 'No synopsis available.';
-        let provider = 'bato';
-
-        // Try Bato first per instructions
-        try {
-            const batoSearch = encodeURIComponent(`https://api.consumet.org/manga/bato/${encodeURIComponent(title)}`);
-            const searchRes = await fetch(`/api/proxy?url=${batoSearch}`);
-            const searchJson = await searchRes.json();
-            results = searchJson?.results || [];
-            
-            if (results.length === 0) throw new Error('not_found_on_bato');
-            consumetId = results[0].id;
-            synopsis = results[0].description || synopsis;
-        } catch (batoErr) {
-            console.warn('Bato search failed, failing over to MangaDex provider via Consumet...', batoErr);
-            provider = 'mangadex';
-            const mdxSearch = encodeURIComponent(`https://api.consumet.org/manga/mangadex/${encodeURIComponent(title)}`);
-            const searchRes = await fetch(`/api/proxy?url=${mdxSearch}`);
-            const searchJson = await searchRes.json();
-            results = searchJson?.results || [];
-
-            if (results.length === 0) throw new Error('not_found_on_any_provider');
-            consumetId = results[0].id;
-            synopsis = results[0].description || synopsis;
-        }
-
-        // Fetch chapter info from resolved provider
-        await new Promise(r => setTimeout(r, 500)); // Rate limit pause
-        const infoUrl = encodeURIComponent(`https://api.consumet.org/manga/${provider}/info?id=${encodeURIComponent(consumetId)}`);
-        const infoRes = await fetch(`/api/proxy?url=${infoUrl}`);
-        const infoJson = await infoRes.json();
-        let chapters = infoJson?.chapters || [];
-
-        // Reverse so Chapter 1 comes first if it's descending
-        if (chapters.length > 0 && chapters[0].chapterNumber > chapters[chapters.length - 1].chapterNumber) {
-            chapters.reverse();
-        }
-
-        // Build reader UI
-        readerContent.innerHTML = `
-            <div class="reader-manga-info">
-                <img src="${image}" alt="${title}" class="reader-cover" onerror="this.style.display='none'">
-                <div class="reader-details">
-                    <h2>${title}</h2>
-                    <div class="reader-genre">${genre}</div>
-                    <div class="reader-score">★ ${rating}</div>
-                    <div class="reader-synopsis">${synopsis.substring(0, 300)}${synopsis.length > 300 ? '...' : ''}</div>
-                </div>
-            </div>
-
-            ${chapters.length > 0 ? `
-                <h3 class="chapter-list-title">📚 Chapters (${chapters.length})</h3>
-                <div class="chapter-grid">
-                    ${chapters.map(ch => {
-                        const chNum = ch.chapterNumber || ch.id.split('-').pop() || '?';
-                        const chTitle = ch.title || `Chapter ${chNum}`;
-                        return `<button class="chapter-btn" onclick="loadChapterPages('${ch.id}', '${title.replace(/'/g, "\\'")}', '${chNum}', '${provider}')">
-                            <span class="ch-num">Ch ${chNum}</span>
-                            <span class="ch-label">${chTitle}</span>
-                        </button>`;
-                    }).join('')}
-                </div>
-            ` : `
-                <div class="reader-fallback">
-                    <h3>📚 No Chapters Available</h3>
-                    <p>Sorry, chapters for this title are currently unavailable in our database.</p>
-                    <button onclick="closeReader()" class="btn btn-outline" style="margin-top:16px;">← Back to Browse</button>
-                </div>
-            `}
-        `;
-
-    } catch (err) {
-        console.warn('Reader fetch failed:', err);
-        // Graceful in-app fallback — NO external links
-        readerContent.innerHTML = `
-            <div class="reader-manga-info">
-                <img src="${image}" alt="${title}" class="reader-cover" onerror="this.style.display='none'">
-                <div class="reader-details">
-                    <h2>${title}</h2>
-                    <div class="reader-genre">${genre}</div>
-                    <div class="reader-score">★ ${rating}</div>
-                </div>
-            </div>
-            <div class="reader-fallback">
-                <h3>📚 Currently Unavailable</h3>
-                <p>Sorry, chapters for this title are currently unavailable. This may be due to licensing restrictions, network issues, or it being completely missing from the upstream provider.</p>
-                <button onclick="closeReader()" class="btn btn-outline" style="margin-top:16px;">← Back to Browse</button>
-            </div>
-        `;
-    }
-}
-
-async function loadChapterPages(chapterId, title, chapterNum, provider = 'bato') {
-    readerTitle.textContent = `${title} — Chapter ${chapterNum}`;
-    readerContent.innerHTML = '<div class="reader-loading"><div class="spinner"></div><p>Loading chapter pages...</p></div>';
-    readerContent.scrollTo({ top: 0 });
-
-    try {
-        const readUrl = encodeURIComponent(`https://api.consumet.org/manga/${provider}/read?chapterId=${encodeURIComponent(chapterId)}`);
-        const res = await fetch(`/api/proxy?url=${readUrl}`);
+        const res = await fetch(`https://api.jikan.moe/v4/manga/${malId}/full`);
+        if (!res.ok) throw new Error('Failed to fetch stats');
         const json = await res.json();
-        
-        let pages = [];
-        if (Array.isArray(json)) pages = json;
-        else if (json?.data) pages = json.data;
-        else if (json?.pages) pages = json.pages;
-        
-        if (!pages.length) throw new Error('no_pages');
+        const data = json.data;
 
-        readerContent.innerHTML = `
-            <div style="text-align:center;margin-bottom:20px;">
-                <button onclick="openReader('${title.replace(/'/g, "\\'")}', '', '', '')" class="btn btn-outline" style="font-size:0.8rem;">← Back to Chapters</button>
-                <span style="margin:0 12px;color:var(--text-muted);">Chapter ${chapterNum} • ${pages.length} pages</span>
-            </div>
-            <div class="reader-pages" style="display:flex; flex-direction:column; align-items:center; gap:0;">
-                ${pages.map((page, i) => {
-                    const imgUrl = typeof page === 'string' ? page : (page.img || page.url);
-                    // Standard proxy wrapper for images to prevent referrer blocks
-                    return `<img src="/api/proxy?url=${encodeURIComponent(imgUrl)}" alt="Page ${i+1}" loading="lazy" style="max-width:100%; display:block;">`;
-                }).join('')}
-            </div>
-            <div style="text-align:center;margin-top:30px;">
-                <button onclick="openReader('${title.replace(/'/g, "\\'")}', '', '', '')" class="btn btn-primary">← Back to Chapters</button>
-            </div>
-        `;
+        const titleObj = data.title;
+        const jpTitle = data.title_japanese || '';
+        const image = data.images?.webp?.large_image_url || data.images?.jpg?.large_image_url || '';
+        const status = data.status || 'Unknown';
+        const score = data.score ? data.score.toFixed(2) : 'N/A';
+        const rank = data.rank ? \`#\${data.rank}\` : 'Unranked';
+        const authors = (data.authors || []).map(a => a.name).join(', ') || 'Unknown Author';
+        const genres = (data.genres || []).map(g => \`<span class="details-badge">\${g.name}</span>\`).join('');
+        const synopsis = data.synopsis || 'No synopsis available for this title.';
 
-    } catch (err) {
-        console.warn('Failed to load chapter pages:', err);
-        readerContent.innerHTML = `
-            <div class="reader-fallback">
-                <h3>Could not load pages</h3>
-                <p>Sorry, the pages for this chapter couldn't be loaded. It might be due to a blocked image server or rate limiting from the upstream provider.</p>
-                <div style="margin-top:16px;">
-                    <button onclick="openReader('${title.replace(/'/g, "\\'")}', '', '', '')" class="btn btn-outline">← Back to Chapters</button>
+        detailsTitle.textContent = titleObj;
+        detailsContent.innerHTML = \`
+            <div class="details-manga-info">
+                <img src="\${image}" alt="\${titleObj}" class="details-cover" onerror="this.style.display='none'">
+                <div class="details-meta">
+                    <h2>\${titleObj}</h2>
+                    \${jpTitle ? \`<h3>\${jpTitle}</h3>\` : ''}
+                    <div class="details-badges" style="margin-top:12px;">
+                        <span class="details-badge score">★ \${score}</span>
+                        <span class="details-badge rank">👑 Rank \${rank}</span>
+                        <span class="details-badge" style="border-color: rgba(255,255,255,0.2)">Status: \${status}</span>
+                        <span class="details-badge" style="border-color: rgba(255,255,255,0.2)">✏️ \${authors}</span>
+                    </div>
+                    <div class="details-badges" style="margin-top:12px; margin-bottom:24px;">
+                        \${genres}
+                    </div>
+                    <div class="details-synopsis">
+                        \${synopsis.replace(/\\n/g, '<br/>')}
+                    </div>
                 </div>
             </div>
-        `;
+        \`;
+    } catch (err) {
+        console.warn('Details fetch failed:', err);
+        detailsTitle.textContent = 'Error';
+        detailsContent.innerHTML = \`
+            <div class="details-fallback">
+                <h3>📚 Currently Unavailable</h3>
+                <p>Sorry, rich catalog data for this title could not be fetched right now. This is usually due to an API rate limit drop.</p>
+                <button onclick="closeDetails()" class="btn btn-outline" style="margin-top:16px;">← Back</button>
+            </div>
+        \`;
     }
 }
 
