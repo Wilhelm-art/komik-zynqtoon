@@ -941,7 +941,9 @@
         // 2. Populate Comic Cards
         async function loadComics() {
             try {
-                const response = await fetch('/comics.json');
+                // Use base URL for GitHub Pages subdirectory compatibility
+                const baseUrl = document.querySelector('base')?.href || new URL('./', document.baseURI).href;
+                const response = await fetch(baseUrl + 'comics.json');
                 if (!response.ok) throw new Error('Not found');
                 const data = await response.json();
                 
@@ -981,7 +983,7 @@
                         <h4 class="card-title" title="${comic.title}">${comic.title}</h4>
                         <div class="card-meta">
                             <span class="rating">★ ${comic.rating}</span>
-                            <span style="font-size: 0.8rem; color: var(--text-muted);">Ch ${comic.chapter || '1'}</span>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">Ch ${comic.lastChapter || comic.chapter || '?'}</span>
                         </div>
                         <a href="#" class="read-btn" style="display:block; margin-top:10px;">Read Now</a>
                     </div>
