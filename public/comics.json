@@ -1,13 +1,6 @@
 {
   "trending": [
     {
-      "id": "1",
-      "title": "Solo Leveling",
-      "genre": "Action, Fantasy",
-      "rating": "4.9",
-      "image": "https://mangadex.org/covers/32d76d19-8a05-4d40-93ef-bc23883c799c/ad92582b-8a8b-4024-8147-38686e012e8a.jpg"
-    },
-    {
       "id": "32d76d19-8a05-4db0-b184-e57849f29871",
       "title": "Solo Leveling",
       "genre": "Action, Adventure, Fantasy",
@@ -22,13 +15,6 @@
       "rating": "4.9",
       "image": "https://uploads.mangadex.org/covers/a1e1f782-4092-4876-b33a-b9c51235334d/f7468160-c663-4428-9f37-1249b6d8170c.jpg.512.jpg",
       "lastChapter": "1140"
-    },
-    {
-      "id": "2",
-      "title": "One Piece",
-      "genre": "Adventure, Action",
-      "rating": "4.8",
-      "image": "https://mangadex.org/covers/a1c59b69-4e7f-4594-819d-9226814d862f/f7468160-c663-4428-9f37-1249b6d8170c.jpg"
     },
     {
       "id": "1054045f-4a18-4720-911b-80dfaccd066e",
@@ -61,23 +47,25 @@
       "rating": "4.7",
       "image": "https://uploads.mangadex.org/covers/9f095932-d17b-4029-9e8a-442468d6f51f/41e1c6cf-ca4d-4cd9-82da-a67b2ea5d7e7.jpg.512.jpg",
       "lastChapter": "180"
+    },
+    {
+      "id": "158525b6-71d3-461d-9e6e-c157f4951475",
+      "title": "Kaiju No. 8",
+      "genre": "Action, Sci-Fi",
+      "rating": "4.7",
+      "image": "https://uploads.mangadex.org/covers/158525b6-71d3-461d-9e6e-c157f4951475/b1c47c3a-0a68-4e09-9b99-f0a51c0d9b3d.jpg.512.jpg",
+      "lastChapter": "115"
+    },
+    {
+      "id": "8bb574d3-7d84-4860-9d04-03770383792c",
+      "title": "Sakamoto Days",
+      "genre": "Action, Comedy",
+      "rating": "4.7",
+      "image": "https://uploads.mangadex.org/covers/8bb574d3-7d84-4860-9d04-03770383792c/e3e26a5a-3f90-4fb0-a163-2ddd652f54c0.jpg.512.jpg",
+      "lastChapter": "200"
     }
   ],
   "newReleases": [
-    {
-      "id": "3",
-      "title": "Chainsaw Man",
-      "genre": "Action, Horror",
-      "rating": "4.7",
-      "image": "https://mangadex.org/covers/a7774ce4-d45d-4f30-bd44-934c9c1484f9/963283f5-7484-4860-91b7-7d526715f333.jpg"
-    },
-    {
-      "id": "4",
-      "title": "Oshi no Ko",
-      "genre": "Drama, Supernatural",
-      "rating": "4.9",
-      "image": "https://mangadex.org/covers/206f35cc-2bc9-465d-944d-3e91350e9641/0f04e8a1-c67d-4171-86a0-2f943f9a76d5.jpg"
-    },
     {
       "id": "4d3e819a-9e12-4217-91a5-5026937f6d90",
       "title": "Blue Lock",
@@ -141,6 +129,22 @@
       "rating": "4.9",
       "image": "https://uploads.mangadex.org/covers/c52b2ce3-7f95-469c-96b0-479524fb7a1a/45483c6a-e0f3-49b1-8d82-36b8e33f0dfd.jpg.512.jpg",
       "lastChapter": "376"
+    },
+    {
+      "id": "6b1eb93e-473a-4ab3-9922-1a66c5b2e9e2",
+      "title": "Vinland Saga",
+      "genre": "Action, Adventure, Historical",
+      "rating": "4.8",
+      "image": "https://uploads.mangadex.org/covers/6b1eb93e-473a-4ab3-9922-1a66c5b2e9e2/41c6ab46-b8be-4c6d-8b8c-88dfdeb1bd0f.jpg.512.jpg",
+      "lastChapter": "210"
+    },
+    {
+      "id": "d86cf65b-5f6c-437d-a0af-19a31f94ec55",
+      "title": "Frieren: Beyond Journey's End",
+      "genre": "Adventure, Fantasy, Slice of Life",
+      "rating": "4.8",
+      "image": "https://uploads.mangadex.org/covers/d86cf65b-5f6c-437d-a0af-19a31f94ec55/eb74094a-e6d9-4e43-a116-b0dcbb0a6d5c.jpg.512.jpg",
+      "lastChapter": "140"
     }
   ]
 }
