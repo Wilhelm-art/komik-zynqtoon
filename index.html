@@ -941,9 +941,7 @@
         // 2. Populate Comic Cards
         async function loadComics() {
             try {
-                // Use base URL for GitHub Pages subdirectory compatibility
-                const baseUrl = document.querySelector('base')?.href || new URL('./', document.baseURI).href;
-                const response = await fetch(baseUrl + 'comics.json');
+                const response = await fetch('./comics.json');
                 if (!response.ok) throw new Error('Not found');
                 const data = await response.json();
                 
